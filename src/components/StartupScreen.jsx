@@ -7,7 +7,12 @@ const StartupScreen = () => {
 
 
     return (
-        <button onClick={toggleGameState} className="py-2 px-3 font-semibold bg-orange-600 rounded-md text-sm">Start Game</button>
+        <div className="startup-menu">
+            <h1 className="text-white font-bold text-2xl">FIND THE CHARACTERS</h1>
+            <button onClick={toggleGameState} className=" rounded-md text-sm">
+                START GAME
+            </button>
+        </div>
     )
 }
 
