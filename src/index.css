@@ -13,9 +13,11 @@ body {
 .startup-menu {
     display: flex;
     flex-direction: column;
+    align-items: center;
     padding: 35px;
     gap: 20px;
     /* height: 300px; */
+    width: 400px;
     margin-top: 100px;
     background: rgb(34, 50, 65);
     border-radius: 20px;
@@ -24,6 +26,12 @@ body {
 
 button {
     padding: 8px 10px;
-    background: rgb(109, 210, 250);
+    /* background: rgb(109, 210, 250); */
+    background: rgb(1, 172, 206);
+    font-weight: bold;
     color: white;
+}
+
+button:hover {
+    background-color: rgb(13, 150, 177);
 }
