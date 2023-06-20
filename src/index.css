@@ -22,6 +22,11 @@ body {
     background: rgb(34, 50, 65);
     border-radius: 20px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    transition: 250ms ease-in;
+}
+
+.startup-menu.invisible {
+    opacity: 0;
 }
 
 button {
