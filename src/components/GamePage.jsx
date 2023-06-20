@@ -5,7 +5,7 @@ import Footer from './Footer';
 
 const GamePage = () => {
 
-    const { gameStarted } = useContext(DataContext);
+    const { gameStarted, handleGameClick } = useContext(DataContext);
 
     return (
         //Thin header which contains the character the player needs to search for along with a small icon below it showing what that character is.
@@ -14,7 +14,8 @@ const GamePage = () => {
         gameStarted && (
             <>
                 <Header />
-                <img className="main-bg rounded-lg" src={`${import.meta.env.BASE_URL}images/universe-113-poster.jpg`} alt="" />
+                <img onClick={handleGameClick} className="main-bg rounded-lg" src={`${import.meta.env.BASE_URL}images/universe-113-poster.jpg`} alt="" />
+                <div className="box-click"></div>
                 <Footer />
             </>
         )
