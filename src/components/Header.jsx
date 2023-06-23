@@ -3,8 +3,7 @@ import { DataContext } from "../context/GameData";
 import CharacterIcon from "./CharacterIcon";
 const Header = () => {
 
-    const { characters, currentCoordinate, imageIsClicked,
-    handleCharacterQuery } = useContext(DataContext);
+    const { characters, currentCoordinate, imageIsClicked } = useContext(DataContext);
 
     return (
         <div className="header">

@@ -7,13 +7,25 @@ export const DataProvider = ({ children }) => {
 
     const [gameStarted, setGameStarted] = useState(false);
 
-    const characters = ["Arnold", "Totoro", "Johnny Bravo"];
+    // const characters = ["Arnold", "Totoro", "Johnny Bravo"];
+
+    const initialCharacterState = [
+        { name: "Arnold", isFound: false },
+        { name: "Totoro", isFound: false },
+        { name: "Johnny Bravo", isFound: false },
+    ]
+    const [characters, setCharacters] = useState(initialCharacterState);
 
     const [imageIsClicked, setImageIsClicked] = useState(false);
     const [currentCoordinate, setCurrentCoordinate] = useState(null);
 
     const boxSelectorRef = useRef(null);
 
+    const winner = characters.every((char) => char.isFound);
+
+    if (winner) {
+        console.log('You found them all!');
+    }
     const handleImageClick = async (event) => {
 
         setImageIsClicked(true);
@@ -69,7 +81,7 @@ export const DataProvider = ({ children }) => {
         <DataContext.Provider value={{
             gameStarted, toggleGameState, handleImageClick,
             characters, imageIsClicked, boxSelectorRef, currentCoordinate,
-            handleCharacterQuery
+            handleCharacterQuery, setCharacters
         }}>
             {children}
         </DataContext.Provider>
