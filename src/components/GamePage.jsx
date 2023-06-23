@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { DataContext } from '../context/GameData';
 import Header from './Header';
 import Footer from './Footer';
@@ -7,6 +7,18 @@ const GamePage = () => {
 
     const { gameStarted, handleImageClick, imageIsClicked, boxSelectorRef } = useContext(DataContext);
 
+    // useEffect(() => {
+
+    //     window.addEventListener('scroll', setScrollHeight);
+
+    //     return (() => {
+    //         window.removeEventListener("scroll", setScrollHeight);
+    //     })
+    // });
+
+    // const setScrollHeight = (event) => {
+    //     console.log(event);
+    // }
     return (
         //Thin header which contains the character the player needs to search for along with a small icon below it showing what that character is.
 

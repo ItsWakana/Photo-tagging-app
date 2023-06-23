@@ -16,10 +16,6 @@ export const DataProvider = ({ children }) => {
 
     const handleImageClick = async (event) => {
 
-        // const characterRef = doc(db, "characters", "character list");
-        // const characterSnapshot = await getDoc(characterRef);
-        // console.log(characterSnapshot.data());
-
         setImageIsClicked(true);
         const image = event.target;
 
@@ -36,34 +32,17 @@ export const DataProvider = ({ children }) => {
         const boxSelectorElement = boxSelectorRef.current;
         const boxRect = boxSelectorElement.getBoundingClientRect();
 
-        // const boxWidth = boxSelectorElement.offsetWidth;
-        // const boxHeight = boxSelectorElement.offsetHeight;
-
-        const leftPos = event.clientX - boxRect.width / 2;
-        const topPos = event.clientY - boxRect.height / 2;
+        const leftPos = event.clientX - boxRect.width / 2 + window.scrollX;
+        const topPos = event.clientY - boxRect.height / 2 + window.scrollY;
 
         boxSelectorElement.style.left = `${leftPos}px`;
         boxSelectorElement.style.top = `${topPos}px`;
 
         setCurrentCoordinate(coordinateObj);
-        //FIREBASE DB:
-
-        //Character locations collection-
-          //character name document-
-            //object map containing name, Xstart, xEnd, yStart, yEnd coordinate boundary keys
-        //bestScores collection
-
-        // ArthurX: start: 0.418 end: 0.435
-        // ArthurY: start: 0.617 end: 0.633
-
-        // TotoroX: start: 0.698 end: 0.719
-        // TotoroY: start: 0.527 end: 0.556
-
-        //JohnnyBravoX: start: 0.38 end: 0.407
-        //JohnnyBravoY: start: 0.349 end: 0.374
     }
 
     const handleCharacterQuery = async (character) => {
+        setImageIsClicked(false);
         const characterRef = doc(db, "characters", "character list");
         const characterSnapshot = await getDoc(characterRef);
 
@@ -71,13 +50,14 @@ export const DataProvider = ({ children }) => {
 
         const dbCoordinates = characterArray[character].coordinates;
 
-        if (currentCoordinate.x >= dbCoordinates.xStart && currentCoordinate.x <= dbCoordinates.xEnd && currentCoordinate.y >= dbCoordinates.yStart && currentCoordinate.y <= dbCoordinates.yEnd) {
-            console.log(`Congrats! You found ${character}!`);
-        } else {
-            console.log(`This is not ${character}`);
-        }
+        // if (currentCoordinate.x >= dbCoordinates.xStart && currentCoordinate.x <= dbCoordinates.xEnd && currentCoordinate.y >= dbCoordinates.yStart && currentCoordinate.y <= dbCoordinates.yEnd) {
+        //     console.log(`Congrats! You found ${character}!`);
+        // } else {
+        //     console.log(`This is not ${character}`);
+        // }
 
-        setImageIsClicked(false);
+        return currentCoordinate.x >= dbCoordinates.xStart && currentCoordinate.x <= dbCoordinates.xEnd && currentCoordinate.y >= dbCoordinates.yStart && currentCoordinate.y <= dbCoordinates.yEnd
+
 
     }
 
