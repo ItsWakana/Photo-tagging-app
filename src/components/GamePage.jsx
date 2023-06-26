@@ -1,41 +1,51 @@
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { DataContext } from '../context/GameData';
 import Header from './Header';
 import Footer from './Footer';
+import { getDownloadURL, ref } from 'firebase/storage';
+import { storage } from '../firebaseSetup';
 
 const GamePage = () => {
 
     const { gameStarted, handleImageClick, imageIsClicked, boxSelectorRef } = useContext(DataContext);
 
-    // useEffect(() => {
+    const [imageUrl, setImageUrl] = useState(null);
 
-    //     window.addEventListener('scroll', setScrollHeight);
+    useEffect(() => {
 
-    //     return (() => {
-    //         window.removeEventListener("scroll", setScrollHeight);
-    //     })
-    // });
+        const getInitialImage = async () => {
 
-    // const setScrollHeight = (event) => {
-    //     console.log(event);
-    // }
+            const imageRef = ref(storage, "images/universe-113-poster.jpg");
+
+            const url = await getDownloadURL(imageRef);
+
+            setImageUrl(url);
+        }
+
+        getInitialImage();
+
+    },[]);
     return (
-        //Thin header which contains the character the player needs to search for along with a small icon below it showing what that character is.
-
-        // <Header />
         gameStarted && (
             <>
                 <Header />
-                <img onClick={handleImageClick} className="main-bg rounded-lg" src={`${import.meta.env.BASE_URL}images/universe-113-poster.jpg`} alt="" />
+
+                {imageUrl ? (
+                    <>
+                    <img onClick={handleImageClick} className="main-bg rounded-lg" src={imageUrl} alt=""/>
+                    <div ref={boxSelectorRef}
+                    className={`box-click ${imageIsClicked ? 'visible' : ''}`}
+                    ></div>
+                    </>
+                ) : (
+                    <div id="loading"></div>
+                )}
+                {/* <img onClick={handleImageClick} className="main-bg rounded-lg" src={`${import.meta.env.BASE_URL}images/universe-113-poster.jpg`} alt="" />
                 <div ref={boxSelectorRef} 
-                className={`box-click ${imageIsClicked ? 'visible' : ''}`}></div>
+                className={`box-click ${imageIsClicked ? 'visible' : ''}`}></div> */}
                 <Footer />
             </>
         )
-
-        //Footer which has the current time the user has been searching for. 
-
-        // <TimerFooter />
     )
 }
 

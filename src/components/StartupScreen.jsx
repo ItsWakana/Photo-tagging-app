@@ -23,7 +23,7 @@ const StartupScreen = () => {
 
         getInitialImage()
     },[]);
-    
+
     return (
         // <div className="startup-menu">
 
@@ -31,9 +31,9 @@ const StartupScreen = () => {
             <div className={`startup-menu ${gameStarted ? 'invisible' : ''}`}>
                 <h1 className="text-white font-normal text-xl">FIND THE CHARACTERS</h1>
                 {imageUrl ? (
-                    <img className="mini-bg rounded-lg" src={`${import.meta.env.BASE_URL}images/universe-113-poster crop.jpg`} alt="" />
+                    <img className="mini-bg rounded-lg" src={imageUrl} alt="" />
                 ) : (
-                    <p>Loading...</p>
+                    <div id="loading"></div>
                 )}
                 {/* <img className="mini-bg rounded-lg" src={`${import.meta.env.BASE_URL}images/universe-113-poster crop.jpg`} alt="" /> */}
                 <button onClick={toggleGameState} className=" rounded-lg text-sm w-full p-2">
