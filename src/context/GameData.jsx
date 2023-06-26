@@ -1,4 +1,4 @@
-import { createContext, useRef, useState } from "react";
+import { createContext, useRef, useState, useEffect } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebaseSetup";
 export const DataContext = createContext({});
@@ -25,9 +25,13 @@ export const DataProvider = ({ children }) => {
 
     const winner = characters.every((char) => char.isFound);
 
-    if (winner) {
-        setIsRunning(false);
-    }
+    useEffect(() => {
+
+        if (winner) {
+            setIsRunning(false);
+            console.log(elapsedTime);
+        }
+    },[winner]);
     const handleImageClick = async (event) => {
 
         setImageIsClicked(true);
@@ -84,7 +88,7 @@ export const DataProvider = ({ children }) => {
             gameStarted, toggleGameState, handleImageClick,
             characters, imageIsClicked, boxSelectorRef, currentCoordinate,
             handleCharacterQuery, setCharacters,
-            startTime, setStartTime, elapsedTime, setElapsedTime
+            startTime, setStartTime, elapsedTime, setElapsedTime, isRunning
         }}>
             {children}
         </DataContext.Provider>

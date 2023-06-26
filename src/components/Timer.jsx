@@ -9,21 +9,27 @@ const Timer = () => {
         startTime,
         setStartTime,
         elapsedTime,
-        setElapsedTime
+        setElapsedTime,
+        isRunning
     } = useContext(DataContext);
 
 
     useEffect(() => {
-      if (!startTime) {
+      if (isRunning && !startTime) {
         setStartTime(Date.now());
       }
+
 
       const interval = setInterval(() => {
         setElapsedTime(Date.now() - startTime);
       }, 10);
+
+      if (!isRunning) {
+        clearInterval(interval);
+      }
   
       return () => clearInterval(interval);
-    }, [startTime]);
+    }, [isRunning, startTime]);
   
     const formatTime = (time) => {
       const minutes = Math.floor(time / 60000);
