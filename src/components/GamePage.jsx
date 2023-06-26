@@ -38,11 +38,8 @@ const GamePage = () => {
                     ></div>
                     </>
                 ) : (
-                    <div id="loading"></div>
+                    <div className="loading"></div>
                 )}
-                {/* <img onClick={handleImageClick} className="main-bg rounded-lg" src={`${import.meta.env.BASE_URL}images/universe-113-poster.jpg`} alt="" />
-                <div ref={boxSelectorRef} 
-                className={`box-click ${imageIsClicked ? 'visible' : ''}`}></div> */}
                 <Footer />
             </>
         )

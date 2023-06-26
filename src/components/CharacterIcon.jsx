@@ -52,7 +52,7 @@ const CharacterIcon = ({ character }) => {
                 {imageUrl ? (
                     <img src={imageUrl} alt=""/>
                 ) : (
-                    <div id="loading"></div>
+                    <div className="loading smaller"></div>
                 )}
                 {/* <img src={`${import.meta.env.BASE_URL}images/icons/${character.name}.png`} alt=""/> */}
                 <button onClick={checkCharacterFound} className={`character-btn ${imageIsClicked ? 'visible' : ''}`}>^</button>

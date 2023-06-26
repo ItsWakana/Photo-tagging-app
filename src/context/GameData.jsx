@@ -1,5 +1,5 @@
 import { createContext, useRef, useState } from "react";
-import { doc, getDoc, collection, query, where } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebaseSetup";
 export const DataContext = createContext({});
 
@@ -7,7 +7,9 @@ export const DataProvider = ({ children }) => {
 
     const [gameStarted, setGameStarted] = useState(false);
 
-    // const characters = ["Arnold", "Totoro", "Johnny Bravo"];
+    const [startTime, setStartTime] = useState(null);
+    const [elapsedTime, setElapsedTime] = useState(0);
+    const [isRunning, setIsRunning] = useState(true);
 
     const initialCharacterState = [
         { name: "Arnold", isFound: false },
@@ -24,7 +26,7 @@ export const DataProvider = ({ children }) => {
     const winner = characters.every((char) => char.isFound);
 
     if (winner) {
-        console.log('You found them all!');
+        setIsRunning(false);
     }
     const handleImageClick = async (event) => {
 
@@ -81,7 +83,8 @@ export const DataProvider = ({ children }) => {
         <DataContext.Provider value={{
             gameStarted, toggleGameState, handleImageClick,
             characters, imageIsClicked, boxSelectorRef, currentCoordinate,
-            handleCharacterQuery, setCharacters
+            handleCharacterQuery, setCharacters,
+            startTime, setStartTime, elapsedTime, setElapsedTime
         }}>
             {children}
         </DataContext.Provider>

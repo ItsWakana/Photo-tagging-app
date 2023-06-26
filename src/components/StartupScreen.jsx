@@ -33,7 +33,7 @@ const StartupScreen = () => {
                 {imageUrl ? (
                     <img className="mini-bg rounded-lg" src={imageUrl} alt="" />
                 ) : (
-                    <div id="loading"></div>
+                    <div className="loading"></div>
                 )}
                 {/* <img className="mini-bg rounded-lg" src={`${import.meta.env.BASE_URL}images/universe-113-poster crop.jpg`} alt="" /> */}
                 <button onClick={toggleGameState} className=" rounded-lg text-sm w-full p-2">

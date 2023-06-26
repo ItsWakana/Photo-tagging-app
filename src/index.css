@@ -140,7 +140,7 @@ button:hover {
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
-#loading {
+.loading {
     display: inline-block;
     width: 35px;
     height: 35px;
@@ -149,8 +149,13 @@ button:hover {
     border-top-color: #fff;
     animation: spin 1s ease-in-out infinite;
     -webkit-animation: spin 1s ease-in-out infinite;
-  }
-  
+}
+
+.loading.smaller {
+    width: 15px;
+    height: 15px;
+}
+
 @keyframes spin {
     to { -webkit-transform: rotate(360deg); }
 }
