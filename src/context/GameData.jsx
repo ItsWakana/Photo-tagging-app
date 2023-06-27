@@ -1,5 +1,5 @@
 import { createContext, useRef, useState, useEffect } from "react";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "../firebaseSetup";
 import {
     getAuth,
@@ -21,6 +21,8 @@ export const DataProvider = ({ children }) => {
 
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [user, setUser] = useState(null);
+    const [bestScore, setBestScore] = useState(null);
+
     const initialCharacterState = [
         { name: "Arnold", isFound: false },
         { name: "Totoro", isFound: false },
@@ -49,12 +51,23 @@ export const DataProvider = ({ children }) => {
         const scoreSnapshot = await getDoc(scoreRef);
 
         if (!scoreSnapshot.exists()) {
-            console.log('No score set for this user');
+            return null;
         }
-
-
     }
 
+    const submitScoreFirebase = async () => {
+
+        if (!bestScore) {
+
+            console.log('no best score');
+            console.log(elapsedTime);
+            await setDoc(doc(db, "/scores", user.uid), {
+                elapsedTime
+            });
+
+
+        }
+    }
     const handleLoginClick = async () => {
 
         if (isLoggedIn) {
@@ -72,10 +85,12 @@ export const DataProvider = ({ children }) => {
             setUser(auth.currentUser);
             setIsLoggedIn(true);
     
-            const bestScore = await getFirebaseData(auth.currentUser.uid);
-
+            const score = await getFirebaseData(auth.currentUser.uid);
             //if a bestscore exists on the users account, set the score data and display it somewhere.
    
+            if (score && bestScore > score) {
+                setBestScore(score);
+            }
         } catch(err) {
             console.log(err);
         }
@@ -129,7 +144,7 @@ export const DataProvider = ({ children }) => {
             gameStarted, toggleGameState, handleImageClick,
             characters, imageIsClicked, boxSelectorRef, currentCoordinate,
             handleCharacterQuery, setCharacters,
-            startTime, setStartTime, elapsedTime, setElapsedTime, isRunning, handleLoginClick
+            startTime, setStartTime, elapsedTime, setElapsedTime, isRunning, handleLoginClick, isLoggedIn, user, bestScore, submitScoreFirebase
         }}>
             {children}
         </DataContext.Provider>

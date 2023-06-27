@@ -5,10 +5,12 @@ import { ref, getDownloadURL } from "firebase/storage";
 
 const StartupScreen = () => {
 
-    const { toggleGameState, gameStarted } = useContext(DataContext);
+    const { toggleGameState, gameStarted, 
+    handleLoginClick, isLoggedIn } = useContext(DataContext);
+
     const [imageUrl, setImageUrl] = useState(null);
 
-    //TODO: ADD BACKGROUND IMAGE BELOW SO USER CAN SEE WHAT THEY WILL BE DOING.
+    //TODO: IF THE USER IS NOT LOGGED IN, DISABLE THE START GAME BUTTON UNTIL THE USER LOG IN STATE IS PRESENT.
 
     useEffect(() => {
 
@@ -33,9 +35,16 @@ const StartupScreen = () => {
                 ) : (
                     <div className="loading"></div>
                 )}
-                <button onClick={toggleGameState} className=" rounded-lg text-sm w-full p-2">
+                {!isLoggedIn && (
+                    <button onClick={handleLoginClick}
+                    className="rounded-lg text-sm w-full p-2">
+                        {`${isLoggedIn ? 'LOG OUT' : 'LOG IN'}`}
+                    </button>
+                )}
+                <button disabled={!isLoggedIn} onClick={toggleGameState} className="rounded-lg text-sm w-full p-2">
                     START GAME
                 </button>
+
             </div>
         )
     )

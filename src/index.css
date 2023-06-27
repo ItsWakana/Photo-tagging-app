@@ -43,9 +43,16 @@ button {
     color: white;
 }
 
+button:disabled,
+button[disabled]{
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
+}
+/* 
 button:hover {
     background-color: rgb(13, 150, 177);
-}
+} */
 
 .header {
     display: flex;
@@ -67,13 +74,15 @@ button:hover {
 .login-tab {
     display: flex;
     justify-content: center;
+    flex-direction: column;
+    gap: 7px;
     align-items: center;
     position: fixed;
     top: 0;
-    right: 100px;
+    right: 0;
     /* left: 50%;
     transform: translateX(-50%); */
-    width: 70px;
+    /* width: 70px; */
     height: 50px;
     color: white;
     background: rgb(34, 50, 65);
