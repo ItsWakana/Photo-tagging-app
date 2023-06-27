@@ -7,7 +7,7 @@ import { storage } from '../firebaseSetup';
 
 const GamePage = () => {
 
-    const { gameStarted, handleImageClick, imageIsClicked, boxSelectorRef } = useContext(DataContext);
+    const { gameStarted, handleImageClick, imageIsClicked, boxSelectorRef, isRunning, elapsedTime } = useContext(DataContext);
 
     const [imageUrl, setImageUrl] = useState(null);
 
@@ -29,7 +29,6 @@ const GamePage = () => {
         gameStarted && (
             <>
                 <Header />
-
                 {imageUrl ? (
                     <>
                     <img onClick={handleImageClick} className="main-bg rounded-lg" src={imageUrl} alt=""/>

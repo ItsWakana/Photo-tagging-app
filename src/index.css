@@ -156,6 +156,10 @@ button:hover {
     height: 15px;
 }
 
+dialog {
+    z-index: 9999;
+}
+
 @keyframes spin {
     to { -webkit-transform: rotate(360deg); }
 }
