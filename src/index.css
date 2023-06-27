@@ -2,6 +2,12 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
+*,
+*::after,
+*::before {
+    box-sizing: border-box;
+}
+
 body {
     display: flex;
     justify-content: center;
@@ -51,6 +57,25 @@ button:hover {
     transform: translateX(-50%);
     width: 60%;
     height: 50px;
+    background: rgb(34, 50, 65);
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+    z-index: 9999;
+}
+
+.login-tab {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    right: 100px;
+    /* left: 50%;
+    transform: translateX(-50%); */
+    width: 70px;
+    height: 50px;
+    color: white;
     background: rgb(34, 50, 65);
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
@@ -154,10 +179,6 @@ button:hover {
 .loading.smaller {
     width: 15px;
     height: 15px;
-}
-
-dialog {
-    z-index: 9999;
 }
 
 @keyframes spin {

@@ -4,6 +4,7 @@ import Header from './Header';
 import Footer from './Footer';
 import { getDownloadURL, ref } from 'firebase/storage';
 import { storage } from '../firebaseSetup';
+import LoginNav from './LoginNav';
 
 const GamePage = () => {
 
@@ -29,6 +30,7 @@ const GamePage = () => {
         gameStarted && (
             <>
                 <Header />
+                <LoginNav />
                 {imageUrl ? (
                     <>
                     <img onClick={handleImageClick} className="main-bg rounded-lg" src={imageUrl} alt=""/>

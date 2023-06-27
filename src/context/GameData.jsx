@@ -1,6 +1,14 @@
 import { createContext, useRef, useState, useEffect } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebaseSetup";
+import {
+    getAuth,
+    onAuthStateChanged,
+    GoogleAuthProvider,
+    signInWithPopup,
+    signOut,
+} from 'firebase/auth';
+
 export const DataContext = createContext({});
 
 export const DataProvider = ({ children }) => {
@@ -11,6 +19,8 @@ export const DataProvider = ({ children }) => {
     const [elapsedTime, setElapsedTime] = useState(0);
     const [isRunning, setIsRunning] = useState(true);
 
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [user, setUser] = useState(null);
     const initialCharacterState = [
         { name: "Arnold", isFound: false },
         { name: "Totoro", isFound: false },
@@ -29,9 +39,48 @@ export const DataProvider = ({ children }) => {
 
         if (winner) {
             setIsRunning(false);
-            console.log(elapsedTime);
         }
     },[winner]);
+
+    const getFirebaseData = async (userId) => {
+
+        const scoreRef = doc(db, "/scores", userId);
+
+        const scoreSnapshot = await getDoc(scoreRef);
+
+        if (!scoreSnapshot.exists()) {
+            console.log('No score set for this user');
+        }
+
+
+    }
+
+    const handleLoginClick = async () => {
+
+        if (isLoggedIn) {
+            signOut(getAuth());
+            setUser(null);
+            setIsLoggedIn(false);
+            return;
+        }
+
+        try {
+            const provider = new GoogleAuthProvider();
+            await signInWithPopup(getAuth(), provider);
+    
+            const auth = getAuth();
+            setUser(auth.currentUser);
+            setIsLoggedIn(true);
+    
+            const bestScore = await getFirebaseData(auth.currentUser.uid);
+
+            //if a bestscore exists on the users account, set the score data and display it somewhere.
+   
+        } catch(err) {
+            console.log(err);
+        }
+    }
+
     const handleImageClick = async (event) => {
 
         setImageIsClicked(true);
@@ -68,15 +117,7 @@ export const DataProvider = ({ children }) => {
 
         const dbCoordinates = characterArray[character].coordinates;
 
-        // if (currentCoordinate.x >= dbCoordinates.xStart && currentCoordinate.x <= dbCoordinates.xEnd && currentCoordinate.y >= dbCoordinates.yStart && currentCoordinate.y <= dbCoordinates.yEnd) {
-        //     console.log(`Congrats! You found ${character}!`);
-        // } else {
-        //     console.log(`This is not ${character}`);
-        // }
-
         return currentCoordinate.x >= dbCoordinates.xStart && currentCoordinate.x <= dbCoordinates.xEnd && currentCoordinate.y >= dbCoordinates.yStart && currentCoordinate.y <= dbCoordinates.yEnd
-
-
     }
 
     const toggleGameState = () => {
@@ -88,7 +129,7 @@ export const DataProvider = ({ children }) => {
             gameStarted, toggleGameState, handleImageClick,
             characters, imageIsClicked, boxSelectorRef, currentCoordinate,
             handleCharacterQuery, setCharacters,
-            startTime, setStartTime, elapsedTime, setElapsedTime, isRunning
+            startTime, setStartTime, elapsedTime, setElapsedTime, isRunning, handleLoginClick
         }}>
             {children}
         </DataContext.Provider>
