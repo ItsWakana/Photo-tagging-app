@@ -3,7 +3,6 @@ import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "../firebaseSetup";
 import {
     getAuth,
-    onAuthStateChanged,
     GoogleAuthProvider,
     signInWithPopup,
     signOut,
@@ -74,6 +73,11 @@ export const DataProvider = ({ children }) => {
             });
             setBestScore(elapsedTime);
         }
+
+        if (bestScore < elapsedTime) {
+            console.log('Score is not higher than best score');
+            //TODO: ERROR LOGGING IF THE USER TRIES TO SUBMIT A SCORE NOT HIGHER THAN THEIR BEST SCORE.
+        }
     }
     const handleLoginClick = async () => {
 
@@ -91,7 +95,6 @@ export const DataProvider = ({ children }) => {
             const auth = getAuth();
             setUser(auth.currentUser);
             setIsLoggedIn(true);
-    
             const firebaseData = await getFirebaseData(auth.currentUser.uid);
             //if a bestscore exists on the users account, set the score data and display it somewhere.
 
