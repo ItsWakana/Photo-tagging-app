@@ -1,5 +1,5 @@
 import { createContext, useRef, useState, useEffect } from "react";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "../firebaseSetup";
 import {
     getAuth,
@@ -53,6 +53,8 @@ export const DataProvider = ({ children }) => {
         if (!scoreSnapshot.exists()) {
             return null;
         }
+
+        return scoreSnapshot.data();
     }
 
     const submitScoreFirebase = async () => {
@@ -64,8 +66,13 @@ export const DataProvider = ({ children }) => {
             await setDoc(doc(db, "/scores", user.uid), {
                 elapsedTime
             });
-
-
+        } else if (bestScore > elapsedTime) {
+            const scoreRef = doc(db, "/scores", user.uid);
+            
+            await updateDoc(scoreRef, {
+                elapsedTime
+            });
+            setBestScore(elapsedTime);
         }
     }
     const handleLoginClick = async () => {
@@ -85,12 +92,17 @@ export const DataProvider = ({ children }) => {
             setUser(auth.currentUser);
             setIsLoggedIn(true);
     
-            const score = await getFirebaseData(auth.currentUser.uid);
+            const firebaseData = await getFirebaseData(auth.currentUser.uid);
             //if a bestscore exists on the users account, set the score data and display it somewhere.
-   
-            if (score && bestScore > score) {
-                setBestScore(score);
+
+            //check the firebase db, if we get a return value, we we want to set the bestScore to that value we reiceved from the db. If we don't get any data, it means that the user doesn't have a bestScore
+
+            if (firebaseData) {
+                setBestScore(firebaseData.elapsedTime);
             }
+            // if (score && bestScore > score) {
+            //     setBestScore(score);
+            // }
         } catch(err) {
             console.log(err);
         }

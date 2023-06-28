@@ -38,7 +38,7 @@ const StartupScreen = () => {
                 {!isLoggedIn && (
                     <button onClick={handleLoginClick}
                     className="rounded-lg text-sm w-full p-2">
-                        {`${isLoggedIn ? 'LOG OUT' : 'LOG IN'}`}
+                        {`${isLoggedIn ? 'LOG OUT' : 'LOG IN WITH GOOGLE'}`}
                     </button>
                 )}
                 <button disabled={!isLoggedIn} onClick={toggleGameState} className="rounded-lg text-sm w-full p-2">
