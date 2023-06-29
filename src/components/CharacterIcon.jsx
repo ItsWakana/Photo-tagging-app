@@ -6,7 +6,7 @@ import { getDownloadURL, ref } from "firebase/storage";
 const CharacterIcon = ({ character }) => {
 
     const { handleCharacterQuery, imageIsClicked,
-    setCharacters } = useContext(DataContext);
+    setCharacters, handlePopupType } = useContext(DataContext);
 
     const [imageUrl, setImageUrl] = useState(null);
 
@@ -25,23 +25,26 @@ const CharacterIcon = ({ character }) => {
     },[]);
 
     const checkCharacterFound = async () => {
-
-        const result = await handleCharacterQuery(character.name);
-        if (result) {
-            // setIsFound(true);
-            setCharacters((prevCharacters) => {
-                return prevCharacters.map((char) => {
-                    if (char.name === character.name) {
-                        return {...char, isFound: true}
-                    } else {
-                        return char;
-                    }
-                })
-            });
-
-            console.log(`Congrats! You found ${character.name}!`);
-        } else {
-            console.log(`This is not ${character.name}`);
+        try {
+            const result = await handleCharacterQuery(character.name);
+            if (result) {
+                // setIsFound(true);
+                setCharacters((prevCharacters) => {
+                    return prevCharacters.map((char) => {
+                        if (char.name === character.name) {
+                            return {...char, isFound: true}
+                        } else {
+                            return char;
+                        }
+                    })
+                });
+    
+                handlePopupType(`Congrats! You found ${character.name}!`, true);
+            } else {
+                handlePopupType(`This is not ${character.name}`, false);
+            }
+        } catch(err) {
+            handlePopupType("There was a problem querying the character", false);
         }
     }
 

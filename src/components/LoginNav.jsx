@@ -8,9 +8,11 @@ const LoginNav = () => {
 
     return (
         <div className="login-tab">
-            <img className="rounded-xl w-5" src={user.photoURL}/>
-            <h3>BEST SCORE</h3>
-            <p>{bestScore ? formatTime(bestScore) : formatTime(elapsedTime)}</p>
+            <img className="rounded-xl w-7" src={user.photoURL}/>
+            <h4 className="font-bold text-base text-white">
+                FASTEST TIME
+            </h4>
+            <p className="text-sm text-white">{bestScore ? formatTime(bestScore) : formatTime(elapsedTime)}</p>
         </div>
     )
 }

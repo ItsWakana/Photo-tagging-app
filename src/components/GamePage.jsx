@@ -8,7 +8,7 @@ import LoginNav from './LoginNav';
 
 const GamePage = () => {
 
-    const { gameStarted, handleImageClick, imageIsClicked, boxSelectorRef, isRunning, elapsedTime } = useContext(DataContext);
+    const { gameStarted, handleImageClick, imageIsClicked, boxSelectorRef } = useContext(DataContext);
 
     const [imageUrl, setImageUrl] = useState(null);
 

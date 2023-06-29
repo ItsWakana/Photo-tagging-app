@@ -22,6 +22,9 @@ export const DataProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [bestScore, setBestScore] = useState(null);
 
+    const [popupMessage, setPopupMessage] = useState('');
+    const [isPositivePopup, setIsPositivePopup] = useState(true);
+
     const initialCharacterState = [
         { name: "Arnold", isFound: false },
         { name: "Totoro", isFound: false },
@@ -60,24 +63,41 @@ export const DataProvider = ({ children }) => {
 
         if (!bestScore) {
 
-            console.log('no best score');
-            console.log(elapsedTime);
-            await setDoc(doc(db, "/scores", user.uid), {
-                elapsedTime
-            });
+            //do a try catch to make sure the data gets submitted propery, if it does diplay a score submitted message otherwise show the user a something went wrong message.
+            //Oops, something went wrong. Please try again
+
+            try {
+                await setDoc(doc(db, "/scores", user.uid), {
+                    elapsedTime
+                });
+                setBestScore(elapsedTime);
+                handlePopupType("Score submitted successfully!", true);
+            } catch(err) {
+                handlePopupType("There was an error submitting your score", false);
+            }
+            return;
         } else if (bestScore > elapsedTime) {
             const scoreRef = doc(db, "/scores", user.uid);
             
-            await updateDoc(scoreRef, {
-                elapsedTime
-            });
-            setBestScore(elapsedTime);
+            try {
+                await updateDoc(scoreRef, {
+                    elapsedTime
+                });
+            } catch(err) {
+                handlePopupType("There was an error updating your score", false);
+            }
         }
 
-        if (bestScore < elapsedTime) {
-            console.log('Score is not higher than best score');
+        if (bestScore <= elapsedTime) {
+            handlePopupType("Current score is not higher than your best!", false);
             //TODO: ERROR LOGGING IF THE USER TRIES TO SUBMIT A SCORE NOT HIGHER THAN THEIR BEST SCORE.
         }
+    }
+
+    const handlePopupType = (message, isPositive = true) => {
+        
+        setPopupMessage(message);
+        setIsPositivePopup(isPositive);
     }
     const handleLoginClick = async () => {
 
@@ -91,7 +111,6 @@ export const DataProvider = ({ children }) => {
         try {
             const provider = new GoogleAuthProvider();
             await signInWithPopup(getAuth(), provider);
-    
             const auth = getAuth();
             setUser(auth.currentUser);
             setIsLoggedIn(true);
@@ -107,7 +126,8 @@ export const DataProvider = ({ children }) => {
             //     setBestScore(score);
             // }
         } catch(err) {
-            console.log(err);
+            // setPopupMessage("Sign in failed");
+            handlePopupType("Sign in failed", false);
         }
     }
 
@@ -141,25 +161,36 @@ export const DataProvider = ({ children }) => {
     const handleCharacterQuery = async (character) => {
         setImageIsClicked(false);
         const characterRef = doc(db, "characters", "character list");
-        const characterSnapshot = await getDoc(characterRef);
+            const characterSnapshot = await getDoc(characterRef);
+            const characterArray = characterSnapshot.data();
+    
+            const dbCoordinates = characterArray[character].coordinates;
+    
+            return currentCoordinate.x >= dbCoordinates.xStart && currentCoordinate.x <= dbCoordinates.xEnd && currentCoordinate.y >= dbCoordinates.yStart && currentCoordinate.y <= dbCoordinates.yEnd
+    }
 
-        const characterArray = characterSnapshot.data();
+    const restartGame = () => {
+        toggleGameState();
+        setCharacters(initialCharacterState);
+        setStartTime(null);
+        setElapsedTime(0);
+        setIsRunning(true);
 
-        const dbCoordinates = characterArray[character].coordinates;
-
-        return currentCoordinate.x >= dbCoordinates.xStart && currentCoordinate.x <= dbCoordinates.xEnd && currentCoordinate.y >= dbCoordinates.yStart && currentCoordinate.y <= dbCoordinates.yEnd
     }
 
     const toggleGameState = () => {
         setGameStarted((prev) => !prev);
     }
 
+    const resetPopupMessage = () => {
+        setPopupMessage('');
+    }
     return (
         <DataContext.Provider value={{
             gameStarted, toggleGameState, handleImageClick,
             characters, imageIsClicked, boxSelectorRef, currentCoordinate,
             handleCharacterQuery, setCharacters,
-            startTime, setStartTime, elapsedTime, setElapsedTime, isRunning, handleLoginClick, isLoggedIn, user, bestScore, submitScoreFirebase
+            startTime, setStartTime, elapsedTime, setElapsedTime, isRunning, handleLoginClick, isLoggedIn, user, bestScore, submitScoreFirebase, resetPopupMessage, popupMessage, setPopupMessage, restartGame, handlePopupType, isPositivePopup
         }}>
             {children}
         </DataContext.Provider>

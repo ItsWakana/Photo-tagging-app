@@ -24,7 +24,7 @@ body {
     gap: 20px;
     /* height: 300px; */
     width: 400px;
-    margin-top: 100px;
+    margin-top: 115px;
     background: rgb(34, 50, 65);
     border-radius: 20px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
@@ -80,11 +80,8 @@ button:hover {
     position: fixed;
     top: 0;
     right: 0;
-    /* left: 50%;
-    transform: translateX(-50%); */
-    /* width: 70px; */
-    height: 50px;
     color: white;
+    padding: 10px 20px;
     background: rgb(34, 50, 65);
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
@@ -188,6 +185,27 @@ button:hover {
 .loading.smaller {
     width: 15px;
     height: 15px;
+}
+
+.error-modal {
+    opacity: 0;
+    transform: scale(0);
+    position: fixed;
+    font-weight: bold;
+    text-align: center;
+    font-size: 0.7rem;
+    top: 103px;
+    z-index: 1000;
+    background-color: #d72f2f;
+    border-radius: 10px;
+    color: white;
+    padding: 7px 25px;
+    transition: all 250ms ease-in;
+}
+  
+  .error-modal.active {
+    opacity: 1;
+    transform: scale(1);
 }
 
 @keyframes spin {

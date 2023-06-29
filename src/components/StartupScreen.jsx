@@ -2,13 +2,12 @@ import { useContext, useEffect, useState } from "react"
 import { DataContext } from "../context/GameData";
 import { storage } from "../firebaseSetup";
 import { ref, getDownloadURL } from "firebase/storage";
-import { formatTime } from "../Helper Functions/timer";
 import InitialProfileStatus from "./InitialProfileStatus";
-
+import ErrorModal from "./ErrorModal";
 const StartupScreen = () => {
 
     const { toggleGameState, gameStarted, 
-    handleLoginClick, isLoggedIn, user, bestScore } = useContext(DataContext);
+    handleLoginClick, isLoggedIn } = useContext(DataContext);
 
     const [imageUrl, setImageUrl] = useState(null);
 
@@ -43,13 +42,14 @@ const StartupScreen = () => {
                         {`${isLoggedIn ? 'LOG OUT' : 'LOG IN WITH GOOGLE'}`}
                     </button>
                 ) : (
-                    <div className="absolute top-3 flex items-center flex-col ">
+                    <div className="absolute top-3 flex items-center flex-col gap-2">
                         <InitialProfileStatus />
                     </div>
                 )}
                 <button disabled={!isLoggedIn} onClick={toggleGameState} className="rounded-lg text-sm w-full p-2">
                     START GAME
                 </button>
+                <ErrorModal />
 
             </div>
         )

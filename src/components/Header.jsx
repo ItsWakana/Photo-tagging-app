@@ -1,19 +1,24 @@
 import { useContext } from "react";
 import { DataContext } from "../context/GameData";
 import CharacterIcon from "./CharacterIcon";
-import { formatTime } from "../Helper Functions/timer";
+import ErrorModal from "./ErrorModal";
 
 const Header = () => {
 
     const { characters, imageIsClicked,
-    isRunning, submitScoreFirebase } = useContext(DataContext);
+    isRunning, submitScoreFirebase, restartGame } = useContext(DataContext);
 
     return (
         <div className="header">
+            <ErrorModal />
             <div className={`header__character-picker ${imageIsClicked ? 'open' : ''}`}>
 
                 {!isRunning ? (
-                    <button onClick={submitScoreFirebase} className="rounded-lg text-sm w-50 h-10 p-2">Submit score</button>
+                    <>
+                    <button onClick={submitScoreFirebase} className="rounded-lg text-sm w-50 h-10 py-2 px-1">Submit score</button>
+                    <button onClick={restartGame}
+                    className="rounded-lg text-sm w-50 h-10 py-2 px-1">Play again</button>
+                    </>
                 ) : (
                     characters.map((character, i) => (
                         <CharacterIcon key={i} character={character} />
