@@ -83,6 +83,8 @@ export const DataProvider = ({ children }) => {
                 await updateDoc(scoreRef, {
                     elapsedTime
                 });
+                setBestScore(elapsedTime);
+                handlePopupType("Score updated successfully!", true);
             } catch(err) {
                 handlePopupType("There was an error updating your score", false);
             }
