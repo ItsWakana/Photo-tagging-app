@@ -101,7 +101,7 @@ export const MainProvider = ({ children }) => {
         <MainContext.Provider value={{
             gameStarted, toggleGameState, handleImageClick,
             characters, imageIsClicked, setImageIsClicked, boxSelectorRef, currentCoordinate, setCharacters,
-            startTime, setStartTime, elapsedTime, setElapsedTime, isRunning, isLoggedIn, setIsLoggedIn, user, setUser, bestScore, setBestScore, restartGame,checkCoordinates
+            startTime, setStartTime, elapsedTime, setElapsedTime, isRunning, isLoggedIn, setIsLoggedIn, user, setUser, bestScore, setBestScore, restartGame,checkCoordinates,
         }}>
             <PopupProvider>
                 <DatabaseProvider>

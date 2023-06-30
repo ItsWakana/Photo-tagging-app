@@ -18,7 +18,7 @@ const Header = () => {
 
                 {!isRunning ? (
                     <>
-                    <button onClick={submitScoreFirebase} className="rounded-lg text-sm w-50 h-10 py-2 px-1">Submit score</button>
+                    <button onClick={submitScoreFirebase} className="rounded-lg text-sm w-50 h-10 py-2 px-1">Submit time</button>
                     <button onClick={restartGame}
                     className="rounded-lg text-sm w-50 h-10 py-2 px-1">Play again</button>
                     </>

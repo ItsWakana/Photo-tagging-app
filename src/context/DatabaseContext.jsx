@@ -1,7 +1,7 @@
 import { createContext, useContext, useState } from "react";
 import { PopupContext } from "./PopupContext";
 import { MainContext } from "./MainContext";
-
+import { checkCoordinates } from "../Helper Functions/checkCoordinates";
 import { doc, setDoc, updateDoc, getDoc } from "firebase/firestore";
 import {
     getAuth,
@@ -17,7 +17,7 @@ export const DatabaseProvider = ({ children }) => {
 
     const { handlePopupType } = useContext(PopupContext);
     
-    const { bestScore, setBestScore, elapsedTime, user, isLoggedIn, setUser, setIsLoggedIn, setImageIsClicked, checkCoordinates } = useContext(MainContext);
+    const { bestScore, setBestScore, elapsedTime, user, isLoggedIn, setUser, setIsLoggedIn, setImageIsClicked, currentCoordinate } = useContext(MainContext);
 
     const submitScoreFirebase = async () => {
 
@@ -28,9 +28,9 @@ export const DatabaseProvider = ({ children }) => {
                     elapsedTime
                 });
                 setBestScore(elapsedTime);
-                handlePopupType("Score submitted successfully!", true);
+                handlePopupType("Time submitted successfully!", true);
             } catch(err) {
-                handlePopupType("There was an error submitting your score", false);
+                handlePopupType("There was an error submitting your time", false);
             }
             return;
         } else if (bestScore > elapsedTime) {
@@ -41,14 +41,14 @@ export const DatabaseProvider = ({ children }) => {
                     elapsedTime
                 });
                 setBestScore(elapsedTime);
-                handlePopupType("Score updated successfully!", true);
+                handlePopupType("Time updated successfully!", true);
             } catch(err) {
-                handlePopupType("There was an error updating your score", false);
+                handlePopupType("There was an error updating your time", false);
             }
         }
 
         if (bestScore <= elapsedTime) {
-            handlePopupType("Current score is not higher than your best!", false);
+            handlePopupType("Current time is not faster than your best!", false);
             //TODO: ERROR LOGGING IF THE USER TRIES TO SUBMIT A SCORE NOT HIGHER THAN THEIR BEST SCORE.
         }
     }
@@ -102,7 +102,7 @@ export const DatabaseProvider = ({ children }) => {
     
             const dbCoordinates = characterArray[character].coordinates;
     
-            return checkCoordinates(dbCoordinates);
+            return checkCoordinates(currentCoordinate, dbCoordinates);
     }
 
     return (

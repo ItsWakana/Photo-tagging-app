@@ -7,7 +7,7 @@ const InitialProfileStatus = () => {
     const { user, bestScore } = useContext(MainContext);
 
     const formattedScore = formatTime(bestScore);
-
+    
     return (
         <>
         <img className="rounded-full w-10" src={user.photoURL} alt="" />
