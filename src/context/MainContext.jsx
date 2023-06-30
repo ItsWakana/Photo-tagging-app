@@ -1,10 +1,7 @@
 import { createContext, useRef, useState, useEffect, useContext } from "react";
-import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
-import { db } from "../firebaseSetup";
-
 import { PopupProvider } from "./PopupContext";
-import { PopupContext } from "./PopupContext";
 import { DatabaseProvider } from "./DatabaseContext";
+import { UserProvider } from "./UserContext";
 
 export const MainContext = createContext({});
 
@@ -73,16 +70,6 @@ export const MainProvider = ({ children }) => {
         return currentCoordinate.x >= fetchedCoordinates.xStart && currentCoordinate.x <= fetchedCoordinates.xEnd && currentCoordinate.y >= fetchedCoordinates.yStart && currentCoordinate.y <= fetchedCoordinates.yEnd
 
     }
-    // const handleCharacterQuery = async (character) => {
-    //     setImageIsClicked(false);
-    //     const characterRef = doc(db, "characters", "character list");
-    //         const characterSnapshot = await getDoc(characterRef);
-    //         const characterArray = characterSnapshot.data();
-    
-    //         const dbCoordinates = characterArray[character].coordinates;
-    
-    //         return checkCoordinates(dbCoordinates);
-    // }
 
     const restartGame = () => {
         toggleGameState();
@@ -105,7 +92,9 @@ export const MainProvider = ({ children }) => {
         }}>
             <PopupProvider>
                 <DatabaseProvider>
-                {children}
+                    <UserProvider>
+                    {children}
+                    </UserProvider>
                 </DatabaseProvider>
             </PopupProvider>
         </MainContext.Provider>
