@@ -1,13 +1,16 @@
 import { useContext } from "react";
-import { DataContext } from "../context/GameData";
+import { MainContext } from "../context/MainContext";
 import CharacterIcon from "./CharacterIcon";
 import ErrorModal from "./ErrorModal";
+import { DatabaseContext } from "../context/DatabaseContext";
 
 const Header = () => {
 
     const { characters, imageIsClicked,
-    isRunning, submitScoreFirebase, restartGame } = useContext(DataContext);
+    isRunning, restartGame } = useContext(MainContext);
 
+    const { submitScoreFirebase } = useContext(DatabaseContext);
+    
     return (
         <div className="header">
             <ErrorModal />

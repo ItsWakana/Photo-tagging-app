@@ -1,13 +1,16 @@
 import { useContext, useEffect, useState } from "react"
-import { DataContext } from "../context/GameData";
+import { MainContext } from "../context/MainContext";
+import { DatabaseContext } from "../context/DatabaseContext";
 import { storage } from "../firebaseSetup";
 import { ref, getDownloadURL } from "firebase/storage";
 import InitialProfileStatus from "./InitialProfileStatus";
 import ErrorModal from "./ErrorModal";
+
 const StartupScreen = () => {
 
-    const { toggleGameState, gameStarted, 
-    handleLoginClick, isLoggedIn } = useContext(DataContext);
+    const { toggleGameState, gameStarted, isLoggedIn } = useContext(MainContext);
+
+    const { handleLoginClick } = useContext(DatabaseContext);
 
     const [imageUrl, setImageUrl] = useState(null);
 

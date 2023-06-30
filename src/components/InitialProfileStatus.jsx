@@ -1,10 +1,10 @@
 import { useContext } from "react";
-import { DataContext } from "../context/GameData";
+import { MainContext } from "../context/MainContext";
 import { formatTime } from "../Helper Functions/timer";
 
 const InitialProfileStatus = () => {
 
-    const { user, bestScore } = useContext(DataContext);
+    const { user, bestScore } = useContext(MainContext);
 
     const formattedScore = formatTime(bestScore);
 

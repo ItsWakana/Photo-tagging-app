@@ -1,10 +1,10 @@
 import { useContext } from "react";
-import { DataContext } from "../context/GameData";
+import { MainContext } from "../context/MainContext";
 import { formatTime } from '../Helper Functions/timer';
 
 const LoginNav = () => {
 
-    const { user, bestScore, elapsedTime } = useContext(DataContext);
+    const { user, bestScore, elapsedTime } = useContext(MainContext);
 
     return (
         <div className="login-tab">

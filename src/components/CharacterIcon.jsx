@@ -1,12 +1,15 @@
 import { useContext,  useEffect, useState } from "react";
-import { DataContext } from "../context/GameData";
+import { MainContext } from "../context/MainContext";
+import { PopupContext } from "../context/PopupContext";
 import { storage } from "../firebaseSetup";
 import { getDownloadURL, ref } from "firebase/storage";
 
 const CharacterIcon = ({ character }) => {
 
     const { handleCharacterQuery, imageIsClicked,
-    setCharacters, handlePopupType } = useContext(DataContext);
+    setCharacters } = useContext(MainContext);
+
+    const { handlePopupType } = useContext(PopupContext);
 
     const [imageUrl, setImageUrl] = useState(null);
 
