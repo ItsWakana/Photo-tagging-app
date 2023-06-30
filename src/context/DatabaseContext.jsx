@@ -17,7 +17,7 @@ export const DatabaseProvider = ({ children }) => {
 
     const { handlePopupType } = useContext(PopupContext);
     
-    const { bestScore, setBestScore, elapsedTime, user, isLoggedIn, setUser, setIsLoggedIn } = useContext(MainContext);
+    const { bestScore, setBestScore, elapsedTime, user, isLoggedIn, setUser, setIsLoggedIn, setImageIsClicked, checkCoordinates } = useContext(MainContext);
 
     const submitScoreFirebase = async () => {
 
@@ -94,9 +94,20 @@ export const DatabaseProvider = ({ children }) => {
         }
     }
 
+    const handleCharacterQuery = async (character) => {
+        setImageIsClicked(false);
+        const characterRef = doc(db, "characters", "character list");
+            const characterSnapshot = await getDoc(characterRef);
+            const characterArray = characterSnapshot.data();
+    
+            const dbCoordinates = characterArray[character].coordinates;
+    
+            return checkCoordinates(dbCoordinates);
+    }
+
     return (
         <DatabaseContext.Provider value={{
-            submitScoreFirebase, handleLoginClick, 
+            submitScoreFirebase, handleLoginClick, handleCharacterQuery
         }}>
             {children}
         </DatabaseContext.Provider>

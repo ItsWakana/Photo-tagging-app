@@ -73,16 +73,16 @@ export const MainProvider = ({ children }) => {
         return currentCoordinate.x >= fetchedCoordinates.xStart && currentCoordinate.x <= fetchedCoordinates.xEnd && currentCoordinate.y >= fetchedCoordinates.yStart && currentCoordinate.y <= fetchedCoordinates.yEnd
 
     }
-    const handleCharacterQuery = async (character) => {
-        setImageIsClicked(false);
-        const characterRef = doc(db, "characters", "character list");
-            const characterSnapshot = await getDoc(characterRef);
-            const characterArray = characterSnapshot.data();
+    // const handleCharacterQuery = async (character) => {
+    //     setImageIsClicked(false);
+    //     const characterRef = doc(db, "characters", "character list");
+    //         const characterSnapshot = await getDoc(characterRef);
+    //         const characterArray = characterSnapshot.data();
     
-            const dbCoordinates = characterArray[character].coordinates;
+    //         const dbCoordinates = characterArray[character].coordinates;
     
-            return checkCoordinates(dbCoordinates);
-    }
+    //         return checkCoordinates(dbCoordinates);
+    // }
 
     const restartGame = () => {
         toggleGameState();
@@ -100,9 +100,8 @@ export const MainProvider = ({ children }) => {
     return (
         <MainContext.Provider value={{
             gameStarted, toggleGameState, handleImageClick,
-            characters, imageIsClicked, boxSelectorRef, currentCoordinate,
-            handleCharacterQuery, setCharacters,
-            startTime, setStartTime, elapsedTime, setElapsedTime, isRunning, isLoggedIn, setIsLoggedIn, user, setUser, bestScore, setBestScore, restartGame
+            characters, imageIsClicked, setImageIsClicked, boxSelectorRef, currentCoordinate, setCharacters,
+            startTime, setStartTime, elapsedTime, setElapsedTime, isRunning, isLoggedIn, setIsLoggedIn, user, setUser, bestScore, setBestScore, restartGame,checkCoordinates
         }}>
             <PopupProvider>
                 <DatabaseProvider>
