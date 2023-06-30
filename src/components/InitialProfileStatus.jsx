@@ -1,13 +1,16 @@
 import { useContext } from "react";
-import { DataContext } from "../context/GameData";
+import { UserContext } from "../context/UserContext";
+import { GameStateContext } from "../context/GameStateContext";
 import { formatTime } from "../Helper Functions/timer";
 
 const InitialProfileStatus = () => {
 
-    const { user, bestScore } = useContext(DataContext);
+    const { user } = useContext(UserContext);
+
+    const { bestScore } = useContext(GameStateContext);
 
     const formattedScore = formatTime(bestScore);
-
+    
     return (
         <>
         <img className="rounded-full w-10" src={user.photoURL} alt="" />

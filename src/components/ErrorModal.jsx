@@ -1,8 +1,9 @@
 import { useContext, useState, useEffect } from "react";
-import { DataContext } from "../context/GameData";
+import { PopupContext } from "../context/PopupContext";
 const ErrorModal = () => {
 
-    const { popupMessage, resetPopupMessage, isPositivePopup } = useContext(DataContext);
+    const { popupMessage, resetPopupMessage, isPositivePopup } = useContext(PopupContext);
+    
     const [displayModal, setDisplayModal] = useState(false);
 
     useEffect(() => {

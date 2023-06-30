@@ -1,13 +1,18 @@
 import { useContext } from "react";
-import { DataContext } from "../context/GameData";
+import { ImageInteractionContext } from "../context/ImageInteractionContext";
+import { GameStateContext } from "../context/GameStateContext";
 import CharacterIcon from "./CharacterIcon";
 import ErrorModal from "./ErrorModal";
+import { DatabaseContext } from "../context/DatabaseContext";
 
 const Header = () => {
 
-    const { characters, imageIsClicked,
-    isRunning, submitScoreFirebase, restartGame } = useContext(DataContext);
+    const { imageIsClicked } = useContext(ImageInteractionContext);
 
+    const { characters, isRunning, restartGame } = useContext(GameStateContext);
+    
+    const { submitScoreFirebase } = useContext(DatabaseContext);
+    
     return (
         <div className="header">
             <ErrorModal />
@@ -15,7 +20,7 @@ const Header = () => {
 
                 {!isRunning ? (
                     <>
-                    <button onClick={submitScoreFirebase} className="rounded-lg text-sm w-50 h-10 py-2 px-1">Submit score</button>
+                    <button onClick={submitScoreFirebase} className="rounded-lg text-sm w-50 h-10 py-2 px-1">Submit time</button>
                     <button onClick={restartGame}
                     className="rounded-lg text-sm w-50 h-10 py-2 px-1">Play again</button>
                     </>

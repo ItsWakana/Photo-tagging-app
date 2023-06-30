@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from 'react'
-import { DataContext } from '../context/GameData';
+import { ImageInteractionContext } from '../context/ImageInteractionContext';
+import { GameStateContext } from '../context/GameStateContext';
 import Header from './Header';
 import Footer from './Footer';
 import { getDownloadURL, ref } from 'firebase/storage';
@@ -12,8 +13,8 @@ const GamePage = () => {
 
     //THE DRAWER THE PULLS OUT SHOULD JUST HAVE A LITTLE ARROW THAT THE USER CAN CLICK WHICH WOULD OPEN THE MENU RIGHT OUT.
     
-    const { gameStarted, handleImageClick, imageIsClicked, boxSelectorRef } = useContext(DataContext);
-
+    const { handleImageClick, imageIsClicked, boxSelectorRef } = useContext(ImageInteractionContext);
+    const { gameStarted } = useContext(GameStateContext);
     const [imageUrl, setImageUrl] = useState(null);
 
     useEffect(() => {

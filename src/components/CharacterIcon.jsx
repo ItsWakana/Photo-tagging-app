@@ -1,13 +1,17 @@
 import { useContext,  useEffect, useState } from "react";
-import { DataContext } from "../context/GameData";
+import { ImageInteractionContext } from "../context/ImageInteractionContext";
+import { PopupContext } from "../context/PopupContext";
+import { GameStateContext } from "../context/GameStateContext";
+import { DatabaseContext } from "../context/DatabaseContext";
 import { storage } from "../firebaseSetup";
 import { getDownloadURL, ref } from "firebase/storage";
 
 const CharacterIcon = ({ character }) => {
 
-    const { handleCharacterQuery, imageIsClicked,
-    setCharacters, handlePopupType } = useContext(DataContext);
-
+    const { imageIsClicked } = useContext(ImageInteractionContext);
+    const { setCharacters } = useContext(GameStateContext);
+    const { handlePopupType } = useContext(PopupContext);
+    const { handleCharacterQuery } = useContext(DatabaseContext);
     const [imageUrl, setImageUrl] = useState(null);
 
     useEffect(() => {

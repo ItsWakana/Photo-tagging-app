@@ -1,9 +1,7 @@
 import { useEffect, useContext } from 'react';
-import { DataContext } from '../context/GameData';
+import { GameStateContext } from '../context/GameStateContext';
 import { formatTime } from '../Helper Functions/timer';
 const Timer = () => {
-    // const [startTime, setStartTime] = useState(null);
-    // const [elapsedTime, setElapsedTime] = useState(0);
   
     const {
         startTime,
@@ -11,7 +9,7 @@ const Timer = () => {
         elapsedTime,
         setElapsedTime,
         isRunning
-    } = useContext(DataContext);
+    } = useContext(GameStateContext);
 
 
     useEffect(() => {
