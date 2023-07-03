@@ -24,7 +24,9 @@ const CharacterIcon = ({ character }) => {
             setImageUrl(url);
         }
 
-        getInitialImage();
+        if (!imageUrl) {
+            getInitialImage();
+        }
 
     },[]);
 

@@ -3,6 +3,7 @@ import ImageInteractionProvider from "./ImageInteractionContext";
 import PopupProvider from "./PopupContext";
 import UserProvider from "./UserContext";
 import DatabaseProvider from "./DatabaseContext";
+import { BrowserRouter } from "react-router-dom";
 
 export const GameStateContext = createContext({});
 
@@ -53,15 +54,15 @@ const GameStateProvider = ({ children }) => {
     }
     return (
         <GameStateContext.Provider value={contextValue}>
-            <ImageInteractionProvider>
-                <PopupProvider>
-                    <UserProvider>
-                        <DatabaseProvider>
-                            {children}
-                        </DatabaseProvider>
-                    </UserProvider>
-                </PopupProvider>
-            </ImageInteractionProvider>
+        <ImageInteractionProvider>
+            <PopupProvider>
+                <UserProvider>
+                    <DatabaseProvider>
+                        {children}
+                    </DatabaseProvider>
+                </UserProvider>
+            </PopupProvider>
+        </ImageInteractionProvider>
         </GameStateContext.Provider>
     )
 }

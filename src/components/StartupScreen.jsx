@@ -6,6 +6,8 @@ import { storage } from "../firebaseSetup";
 import { ref, getDownloadURL } from "firebase/storage";
 import InitialProfileStatus from "./InitialProfileStatus";
 import ErrorModal from "./ErrorModal";
+import { redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const StartupScreen = () => {
 
@@ -30,8 +32,14 @@ const StartupScreen = () => {
             setImageUrl(url);
         }
 
-        getInitialImage()
+        if (!imageUrl) {
+            getInitialImage()
+        }
     },[]);
+
+    const startGame = () => {
+        toggleGameState();
+    }
 
     return (
         !gameStarted && (
@@ -52,9 +60,11 @@ const StartupScreen = () => {
                         <InitialProfileStatus />
                     </div>
                 )}
-                <button disabled={!isLoggedIn} onClick={toggleGameState} className="rounded-lg text-sm w-full p-2">
+                {/* <Link to="/game" className="w-full"> */}
+                <button disabled={!isLoggedIn} onClick={startGame} className="rounded-lg text-sm w-full p-2">
                     START GAME
                 </button>
+                {/* </Link> */}
                 <ErrorModal />
 
             </div>

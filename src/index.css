@@ -35,6 +35,9 @@ body {
     opacity: 0;
 }
 
+.page-not-found {
+    background: rgb(34, 50, 65);
+}
 button {
     /* padding: 8px 10px; */
     /* background: rgb(109, 210, 250); */
