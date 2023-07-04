@@ -9,10 +9,16 @@ const UserProvider = ({ children }) => {
 
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [user, setUser] = useState(null);
+    const [nickname, setNickname] = useState('');
+
+    const handleNicknameChange = (e) => {
+        setNickname(e.target.value);
+    }
 
     return (
         <UserContext.Provider value={{
-            user, setUser, isLoggedIn, setIsLoggedIn
+            user, setUser, isLoggedIn, setIsLoggedIn,
+            nickname, handleNicknameChange, setNickname
         }}>
             {children}
         </UserContext.Provider>

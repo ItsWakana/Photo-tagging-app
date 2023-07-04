@@ -4,7 +4,7 @@ import { GameStateContext } from "./GameStateContext";
 import { UserContext } from "./UserContext";
 import { ImageInteractionContext } from "./ImageInteractionContext";
 import { checkCoordinates } from "../Helper Functions/checkCoordinates";
-import { doc, setDoc, updateDoc, getDoc } from "firebase/firestore";
+import { doc, setDoc, updateDoc, getDoc, getDocs, collection } from "firebase/firestore";
 import {
     getAuth,
     GoogleAuthProvider,
@@ -21,18 +21,21 @@ const DatabaseProvider = ({ children }) => {
     
     const { setImageIsClicked, currentCoordinate } = useContext(ImageInteractionContext);
 
-    const { user, setUser, isLoggedIn, setIsLoggedIn } = useContext(UserContext);
+    const { user, setUser, isLoggedIn, setIsLoggedIn,
+    nickname, setNickname } = useContext(UserContext);
 
-    const { bestScore, setBestScore, elapsedTime } = useContext(GameStateContext);
+    const { bestScore, setBestScore, elapsedTime, setPlayerScores } = useContext(GameStateContext);
 
     const submitScoreFirebase = async () => {
 
         if (!bestScore) {
-
+            if (!nickname) return;
             try {
                 await setDoc(doc(db, "/scores", user.uid), {
-                    elapsedTime
+                    elapsedTime,
+                    nickname
                 });
+
                 setBestScore(elapsedTime);
                 handlePopupType("Time submitted successfully!", true);
             } catch(err) {
@@ -44,7 +47,8 @@ const DatabaseProvider = ({ children }) => {
             
             try {
                 await updateDoc(scoreRef, {
-                    elapsedTime
+                    elapsedTime, 
+                    nickname
                 });
                 setBestScore(elapsedTime);
                 handlePopupType("Time updated successfully!", true);
@@ -72,6 +76,19 @@ const DatabaseProvider = ({ children }) => {
         return scoreSnapshot.data();
     }
 
+    const getScores = async () => {
+        const scoresSnapshot = await getDocs(collection(db, "scores"));
+
+        const scoresData = scoresSnapshot.docs.map(doc => {
+            return {
+                id: doc.id,
+                ...doc.data()
+            }
+        });
+
+        setPlayerScores(scoresData);
+    }
+
     const handleLoginClick = async () => {
 
         if (isLoggedIn) {
@@ -88,8 +105,9 @@ const DatabaseProvider = ({ children }) => {
             setUser(auth.currentUser);
             setIsLoggedIn(true);
             const firebaseData = await getFirebaseData(auth.currentUser.uid);
-
+            getScores();
             if (firebaseData) {
+                setNickname(firebaseData.nickname);
                 setBestScore(firebaseData.elapsedTime);
             }
         } catch(err) {
@@ -113,7 +131,8 @@ const DatabaseProvider = ({ children }) => {
 
     return (
         <DatabaseContext.Provider value={{
-            submitScoreFirebase, handleLoginClick, handleCharacterQuery
+            submitScoreFirebase, handleLoginClick, handleCharacterQuery,
+            getScores
         }}>
             {children}
         </DatabaseContext.Provider>

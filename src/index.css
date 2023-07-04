@@ -31,6 +31,12 @@ body {
     transition: 150ms ease-in;
 }
 
+.leaderboard {
+    background-color: rgb(34, 50, 65);
+    border-radius: 20px;
+    padding: 15px;
+}
+
 .startup-menu.invisible {
     opacity: 0;
 }

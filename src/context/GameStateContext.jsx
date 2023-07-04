@@ -15,6 +15,7 @@ const GameStateProvider = ({ children }) => {
     const [elapsedTime, setElapsedTime] = useState(0);
     const [isRunning, setIsRunning] = useState(true);
 
+    const [playerScores, setPlayerScores] = useState([]);
     const [bestScore, setBestScore] = useState(null);
 
     const initialCharacterState = [
@@ -50,7 +51,7 @@ const GameStateProvider = ({ children }) => {
     const contextValue = {
         gameStarted, toggleGameState, characters, setCharacters,
         startTime, setStartTime, elapsedTime, setElapsedTime, 
-        isRunning, bestScore, setBestScore, restartGame
+        isRunning, bestScore, setBestScore, restartGame, setPlayerScores, playerScores
     }
     return (
         <GameStateContext.Provider value={contextValue}>
