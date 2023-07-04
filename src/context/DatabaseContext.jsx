@@ -4,7 +4,7 @@ import { GameStateContext } from "./GameStateContext";
 import { UserContext } from "./UserContext";
 import { ImageInteractionContext } from "./ImageInteractionContext";
 import { checkCoordinates } from "../Helper Functions/checkCoordinates";
-import { doc, setDoc, updateDoc, getDoc } from "firebase/firestore";
+import { doc, setDoc, updateDoc, getDoc, getDocs, collection, deleteField, deleteDoc } from "firebase/firestore";
 import {
     getAuth,
     GoogleAuthProvider,
@@ -21,31 +21,56 @@ const DatabaseProvider = ({ children }) => {
     
     const { setImageIsClicked, currentCoordinate } = useContext(ImageInteractionContext);
 
-    const { user, setUser, isLoggedIn, setIsLoggedIn } = useContext(UserContext);
+    const { user, setUser, isLoggedIn, setIsLoggedIn,
+    nickname, setNickname, sessionId } = useContext(UserContext);
 
-    const { bestScore, setBestScore, elapsedTime } = useContext(GameStateContext);
+    const { bestScore, setBestScore, elapsedTime, setPlayerScores,
+    googleAccountScore, setGoogleAccountScore } = useContext(GameStateContext);
 
     const submitScoreFirebase = async () => {
 
-        if (!bestScore) {
+        //TODO: WHEN THE USER PLAYS AN ANONYMOUSE GAME AND SUBMITS THEIR SCORE, AND THEN LOGS IN WITH GOOGLE TO PLAY ANOTHER ROUND. WE SHOULD CHECK IF THEY ALREADY HAVE A BESTSCORE 
 
+
+        getScores();
+        if (!bestScore) {
+            console.log('no best score');
+            if (!nickname) return;
             try {
-                await setDoc(doc(db, "/scores", user.uid), {
-                    elapsedTime
-                });
+                if (isLoggedIn) {
+                    await setDoc(doc(db, "/account scores", user.uid), {
+                        bestScore: elapsedTime,
+                        nickname
+                    });
+                } else {
+                    await setDoc(doc(db, "/anon scores", sessionId), {
+                        bestScore: elapsedTime,
+                        nickname
+                    });
+                }
+
                 setBestScore(elapsedTime);
                 handlePopupType("Time submitted successfully!", true);
             } catch(err) {
+                console.log(err);
                 handlePopupType("There was an error submitting your time", false);
             }
             return;
         } else if (bestScore > elapsedTime) {
-            const scoreRef = doc(db, "/scores", user.uid);
-            
+
             try {
-                await updateDoc(scoreRef, {
-                    elapsedTime
-                });
+                if (isLoggedIn) {
+                    await updateDoc(doc(db, "/account scores", user.uid), {
+                        elapsedTime, 
+                        nickname
+                    });
+
+                } else {
+                    await updateDoc(doc(db, "/anon scores", sessionId), {
+                        elapsedTime,
+                        nickname
+                    })
+                }
                 setBestScore(elapsedTime);
                 handlePopupType("Time updated successfully!", true);
             } catch(err) {
@@ -61,7 +86,7 @@ const DatabaseProvider = ({ children }) => {
 
     const getFirebaseData = async (userId) => {
 
-        const scoreRef = doc(db, "/scores", userId);
+        const scoreRef = doc(db, "/account scores", userId);
 
         const scoreSnapshot = await getDoc(scoreRef);
 
@@ -70,6 +95,37 @@ const DatabaseProvider = ({ children }) => {
         }
 
         return scoreSnapshot.data();
+    }
+
+    const getScores = async () => {
+        const accountScoresSnapshot = await getDocs(collection(db, "account scores"));
+
+        const anonScoresSnapshot = await getDocs(collection(db, "anon scores"));
+
+        const accScoresData = accountScoresSnapshot.docs.map(doc => {
+            return {
+                id: doc.id,
+                ...doc.data()
+            }
+        });
+
+        const anonScoresData = anonScoresSnapshot.docs.map((doc) => {
+            return {
+                id: doc.id,
+                ...doc.data()
+            }
+        }) 
+
+        const allScores = [...accScoresData, ...anonScoresData];
+
+        let scoresLimit = [];
+
+        for (let i=0; i<allScores.length; i++) {
+            if (i==5) return;
+            scoresLimit.push(allScores[i]);
+        }
+        // setPlayerScores([...accScoresData, ...anonScoresData]);
+        setPlayerScores(scoresLimit);
     }
 
     const handleLoginClick = async () => {
@@ -88,9 +144,40 @@ const DatabaseProvider = ({ children }) => {
             setUser(auth.currentUser);
             setIsLoggedIn(true);
             const firebaseData = await getFirebaseData(auth.currentUser.uid);
-
+            getScores();
             if (firebaseData) {
-                setBestScore(firebaseData.elapsedTime);
+
+                if (!bestScore) {
+                    console.log('no local best score yet');
+                    setBestScore(firebaseData.bestScore);
+                }
+                await deleteDoc(doc(db, "/anon scores", sessionId));
+
+                setNickname(firebaseData.nickname);
+                setGoogleAccountScore(firebaseData.bestScore);
+                if (bestScore && bestScore < firebaseData.bestScore) {
+                    console.log('rewrite database');
+                    console.log(bestScore);
+                    console.log(nickname);
+                    await updateDoc(doc(db, "/account scores", auth.currentUser.uid), {
+                        bestScore,
+                        nickname
+                    })
+                } else if (bestScore && bestScore > firebaseData.bestScore) {
+                    setBestScore(firebaseData.bestScore);
+                }
+            } else {
+                //no firebase data available for the user
+
+                if (!bestScore) return;
+                await deleteDoc(doc(db, "/anon scores", sessionId));
+
+                await setDoc(doc(db, "/account scores", auth.currentUser.uid), {
+                    bestScore,
+                    nickname
+                });
+
+
             }
         } catch(err) {
             console.log(err);
@@ -113,7 +200,8 @@ const DatabaseProvider = ({ children }) => {
 
     return (
         <DatabaseContext.Provider value={{
-            submitScoreFirebase, handleLoginClick, handleCharacterQuery
+            submitScoreFirebase, handleLoginClick, handleCharacterQuery,
+            getScores
         }}>
             {children}
         </DatabaseContext.Provider>

@@ -6,14 +6,13 @@ import { storage } from "../firebaseSetup";
 import { ref, getDownloadURL } from "firebase/storage";
 import InitialProfileStatus from "./InitialProfileStatus";
 import ErrorModal from "./ErrorModal";
-import { redirect } from "react-router-dom";
-import { Link } from "react-router-dom";
+import Leaderboard from "./Leaderboard";
 
 const StartupScreen = () => {
 
     const { isLoggedIn } = useContext(UserContext);
 
-    const { gameStarted, toggleGameState } = useContext(GameStateContext);
+    const { gameStarted, toggleGameState, playerScores } = useContext(GameStateContext);
 
     const { handleLoginClick } = useContext(DatabaseContext);
 
@@ -43,12 +42,13 @@ const StartupScreen = () => {
 
     return (
         !gameStarted && (
+            <div className="flex items-center gap-12">
             <div className={`startup-menu ${gameStarted ? 'invisible' : ''}`}>
                 <h1 className="text-white font-normal text-xl">FIND THE CHARACTERS</h1>
                 {imageUrl ? (
                     <img className="mini-bg rounded-lg" src={imageUrl} alt="" />
-                ) : (
-                    <div className="loading"></div>
+                    ) : (
+                    <img className="mini-bg rounded-lg" src={`${import.meta.env.BASE_URL}images/universe-113-poster crop blur.jpg`} alt="" />
                 )}
                 {!isLoggedIn ? (
                     <button onClick={handleLoginClick}
@@ -60,13 +60,13 @@ const StartupScreen = () => {
                         <InitialProfileStatus />
                     </div>
                 )}
-                {/* <Link to="/game" className="w-full"> */}
-                <button disabled={!isLoggedIn} onClick={startGame} className="rounded-lg text-sm w-full p-2">
+                <button onClick={startGame} className="rounded-lg text-sm w-full p-2">
                     START GAME
                 </button>
-                {/* </Link> */}
                 <ErrorModal />
 
+            </div>
+            <Leaderboard />
             </div>
         )
     )

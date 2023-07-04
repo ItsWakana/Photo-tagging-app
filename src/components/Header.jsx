@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { ImageInteractionContext } from "../context/ImageInteractionContext";
 import { GameStateContext } from "../context/GameStateContext";
+import { UserContext } from "../context/UserContext";
 import CharacterIcon from "./CharacterIcon";
 import ErrorModal from "./ErrorModal";
 import { DatabaseContext } from "../context/DatabaseContext";
@@ -12,6 +13,8 @@ const Header = () => {
 
     const { characters, isRunning, restartGame } = useContext(GameStateContext);
     
+    const { nickname, handleNicknameChange } = useContext(UserContext);
+
     const { submitScoreFirebase } = useContext(DatabaseContext);
     
     return (
@@ -21,11 +24,12 @@ const Header = () => {
 
                 {!isRunning ? (
                     <>
+                    <div>
+                    <input onChange={handleNicknameChange} value={nickname} type="text" placeholder="Nickname"/>
                     <button onClick={submitScoreFirebase} className="rounded-lg text-sm w-50 h-10 py-2 px-1">Submit time</button>
-                    {/* <Link to="/"> */}
+                    </div>
                     <button onClick={restartGame}
                     className="rounded-lg text-sm w-50 h-10 py-2 px-1">Play again</button>
-                    {/* </Link> */}
                     </>
                 ) : (
                     characters.map((character, i) => (

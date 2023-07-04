@@ -3,13 +3,13 @@ import { UserContext } from "../context/UserContext";
 import { GameStateContext } from "../context/GameStateContext";
 import { formatTime } from '../Helper Functions/timer';
 
-const LoginNav = () => {
+const ScoreTab = () => {
 
     const { user } = useContext(UserContext);
     const { bestScore, elapsedTime } = useContext(GameStateContext);
     return (
         <div className="login-tab">
-            <img className="rounded-xl w-7" src={user.photoURL}/>
+            <img className="rounded-xl w-7" src={`${user ? user.photoURL : null}`}/>
             <h4 className="font-bold text-base text-white">
                 FASTEST TIME
             </h4>
@@ -18,4 +18,4 @@ const LoginNav = () => {
     )
 }
 
-export default LoginNav;
+export default ScoreTab;
