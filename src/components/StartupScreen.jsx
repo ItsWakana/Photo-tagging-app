@@ -12,7 +12,7 @@ const StartupScreen = () => {
 
     const { isLoggedIn } = useContext(UserContext);
 
-    const { gameStarted, toggleGameState } = useContext(GameStateContext);
+    const { gameStarted, toggleGameState, playerScores } = useContext(GameStateContext);
 
     const { handleLoginClick } = useContext(DatabaseContext);
 
@@ -66,9 +66,9 @@ const StartupScreen = () => {
                 <ErrorModal />
 
             </div>
-            {isLoggedIn && (
-                <Leaderboard />
-            )}
+            {isLoggedIn ? (
+                playerScores.length ? <Leaderboard /> : <div className="loading"></div>
+            ) : null}
             </div>
         )
     )
