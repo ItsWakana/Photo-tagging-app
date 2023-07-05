@@ -27,7 +27,7 @@ const DatabaseProvider = ({ children }) => {
     const { bestScore, setBestScore, elapsedTime, setPlayerScores } = useContext(GameStateContext);
 
     const submitScoreFirebase = async () => {
-
+        getScores();
         if (!bestScore) {
             if (!nickname) return;
             try {

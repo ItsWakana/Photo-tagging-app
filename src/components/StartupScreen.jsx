@@ -66,9 +66,7 @@ const StartupScreen = () => {
                 <ErrorModal />
 
             </div>
-            {isLoggedIn ? (
-                playerScores.length ? <Leaderboard /> : <div className="loading"></div>
-            ) : null}
+            <Leaderboard />
             </div>
         )
     )
