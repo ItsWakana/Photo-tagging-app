@@ -3,7 +3,7 @@ import { UserContext } from "../context/UserContext";
 import { GameStateContext } from "../context/GameStateContext";
 import { formatTime } from '../Helper Functions/timer';
 
-const LoginNav = () => {
+const ScoreTab = () => {
 
     const { user } = useContext(UserContext);
     const { bestScore, elapsedTime } = useContext(GameStateContext);
@@ -18,4 +18,4 @@ const LoginNav = () => {
     )
 }
 
-export default LoginNav;
+export default ScoreTab;

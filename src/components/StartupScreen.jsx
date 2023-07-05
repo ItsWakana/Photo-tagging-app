@@ -48,7 +48,7 @@ const StartupScreen = () => {
                 {imageUrl ? (
                     <img className="mini-bg rounded-lg" src={imageUrl} alt="" />
                     ) : (
-                    <div className="loading"></div>
+                    <img className="mini-bg rounded-lg" src={`${import.meta.env.BASE_URL}images/universe-113-poster crop blur.jpg`} alt="" />
                 )}
                 {!isLoggedIn ? (
                     <button onClick={handleLoginClick}

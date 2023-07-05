@@ -1,5 +1,6 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { GameStateContext } from "../context/GameStateContext";
+import { DatabaseContext } from "../context/DatabaseContext";
 import { formatTime } from "../Helper Functions/timer";
 import { UserContext } from "../context/UserContext";
 
@@ -9,22 +10,25 @@ const Leaderboard = () => {
 
     const { isLoggedIn } = useContext(UserContext);
 
-    //TODO: MAKE THE LEADERBOARD COMPONENT POSITION ABSOLUTE RELATIVE TO THE MAIN CONTAINER OF THE STARTUP PAGE, SO THAT WHEN THE LEADERBOARD LOADS IT DOESN'T SHIFT THE POSITION OF THE MAIN PANEL.
+    const { getScores } = useContext(DatabaseContext);
+
+    useEffect(() => {
+
+        getScores();
+    },[]);
     
     return (
-        <div className="leaderboard text-white flex items-left flex-col">
+        <div className="leaderboard text-white flex items-center flex-col">
             <h1 className="text-xl font-bold pb-5">Leaderboard</h1>
-            {isLoggedIn ? (
-                playerScores.length ?
+                {playerScores.length ?
                 <ul>
                     {playerScores.map((score) => (
                         <li key={score.id}>{`${score.nickname}: ${formatTime(score.elapsedTime)}`}</li>
                     ))}
                 </ul>
                 : <div className="loading"></div>
-            ) : (
-                null
-            )}
+                }
+
         </div>
     )     
 }
