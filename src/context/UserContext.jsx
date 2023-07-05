@@ -1,5 +1,5 @@
-import { createContext, useState } from "react";
-
+import { createContext, useEffect, useState } from "react";
+import { v4 as uuidv4 } from 'uuid';
 export const UserContext = createContext({});
 
 const UserProvider = ({ children }) => {
@@ -10,7 +10,14 @@ const UserProvider = ({ children }) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [user, setUser] = useState(null);
     const [nickname, setNickname] = useState('');
+    const [sessionId, setSessionId] = useState(null);
 
+    useEffect(() => {
+
+        const id = uuidv4();
+
+        setSessionId(id);
+    },[]);
     const handleNicknameChange = (e) => {
         setNickname(e.target.value);
     }
@@ -18,7 +25,8 @@ const UserProvider = ({ children }) => {
     return (
         <UserContext.Provider value={{
             user, setUser, isLoggedIn, setIsLoggedIn,
-            nickname, handleNicknameChange, setNickname
+            nickname, handleNicknameChange, setNickname,
+            sessionId
         }}>
             {children}
         </UserContext.Provider>

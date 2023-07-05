@@ -22,28 +22,37 @@ const DatabaseProvider = ({ children }) => {
     const { setImageIsClicked, currentCoordinate } = useContext(ImageInteractionContext);
 
     const { user, setUser, isLoggedIn, setIsLoggedIn,
-    nickname, setNickname } = useContext(UserContext);
+    nickname, setNickname, sessionId } = useContext(UserContext);
 
     const { bestScore, setBestScore, elapsedTime, setPlayerScores } = useContext(GameStateContext);
 
     const submitScoreFirebase = async () => {
         getScores();
         if (!bestScore) {
+            console.log('no best score');
             if (!nickname) return;
             try {
-                await setDoc(doc(db, "/scores", user.uid), {
-                    elapsedTime,
-                    nickname
-                });
+                if (isLoggedIn) {
+                    await setDoc(doc(db, "/account scores", user.uid), {
+                        elapsedTime,
+                        nickname
+                    });
+                } else {
+                    await setDoc(doc(db, "/anon scores", sessionId), {
+                        elapsedTime,
+                        nickname
+                    });
+                }
 
                 setBestScore(elapsedTime);
                 handlePopupType("Time submitted successfully!", true);
             } catch(err) {
+                console.log(err);
                 handlePopupType("There was an error submitting your time", false);
             }
             return;
         } else if (bestScore > elapsedTime) {
-            const scoreRef = doc(db, "/scores", user.uid);
+            const scoreRef = doc(db, "/account scores", user.uid);
             
             try {
                 await updateDoc(scoreRef, {
@@ -65,7 +74,7 @@ const DatabaseProvider = ({ children }) => {
 
     const getFirebaseData = async (userId) => {
 
-        const scoreRef = doc(db, "/scores", userId);
+        const scoreRef = doc(db, "/account scores", userId);
 
         const scoreSnapshot = await getDoc(scoreRef);
 
@@ -77,7 +86,7 @@ const DatabaseProvider = ({ children }) => {
     }
 
     const getScores = async () => {
-        const scoresSnapshot = await getDocs(collection(db, "scores"));
+        const scoresSnapshot = await getDocs(collection(db, "account scores"));
 
         const scoresData = scoresSnapshot.docs.map(doc => {
             return {

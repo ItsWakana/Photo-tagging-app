@@ -60,7 +60,7 @@ const StartupScreen = () => {
                         <InitialProfileStatus />
                     </div>
                 )}
-                <button disabled={!isLoggedIn} onClick={startGame} className="rounded-lg text-sm w-full p-2">
+                <button onClick={startGame} className="rounded-lg text-sm w-full p-2">
                     START GAME
                 </button>
                 <ErrorModal />
