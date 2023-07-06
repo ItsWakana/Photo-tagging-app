@@ -13,7 +13,6 @@ const Leaderboard = () => {
     const { getScores } = useContext(DatabaseContext);
 
     useEffect(() => {
-
         getScores();
     },[]);
     

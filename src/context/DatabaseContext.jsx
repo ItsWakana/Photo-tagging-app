@@ -61,13 +61,13 @@ const DatabaseProvider = ({ children }) => {
             try {
                 if (isLoggedIn) {
                     await updateDoc(doc(db, "/account scores", user.uid), {
-                        elapsedTime, 
+                        bestScore: elapsedTime, 
                         nickname
                     });
 
                 } else {
                     await updateDoc(doc(db, "/anon scores", sessionId), {
-                        elapsedTime,
+                        bestScore: elapsedTime,
                         nickname
                     })
                 }
@@ -114,14 +114,14 @@ const DatabaseProvider = ({ children }) => {
                 id: doc.id,
                 ...doc.data()
             }
-        }) 
+        });
 
         const allScores = [...accScoresData, ...anonScoresData];
-
+        console.log(allScores);
         let scoresLimit = [];
 
         for (let i=0; i<allScores.length; i++) {
-            if (i==5) return;
+            if (i==5) break;
             scoresLimit.push(allScores[i]);
         }
         // setPlayerScores([...accScoresData, ...anonScoresData]);
