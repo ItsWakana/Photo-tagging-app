@@ -17,14 +17,16 @@ const Leaderboard = () => {
     },[]);
     
     return (
-        <div className="leaderboard text-white flex items-center flex-col">
+        <div className="leaderboard text-white flex items-center flex-col bg-stone-900 w-60">
             <h1 className="text-xl font-bold pb-5">Leaderboard</h1>
                 {playerScores.length ?
-                <ul className="flex flex-col bg-sky-500 rounded-xl p-4 gap-3">
+                <ul className="flex flex-col rounded-xl w-full p-1 bg-stone-800 ">
                     {playerScores.map((score) => (
-                        <li key={score.id}>
+                        <li key={score.id} className="p-2 rounded-lg flex flex-col gap-3">
+                            <div>
                             <h4 className="font-bold">{score.nickname} </h4>
                             <span>{formatTime(score.bestScore)}</span>
+                            </div>
                             <hr className="opacity-30"/>
                         </li>
                     ))}

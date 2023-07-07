@@ -42,17 +42,17 @@ const StartupScreen = () => {
 
     return (
         !gameStarted && (
-            <div className="flex items-center gap-12">
-            <div className={`startup-menu ${gameStarted ? 'invisible' : ''}`}>
+            <div className="flex items-start gap-6">
+            <div className={`startup-menu ${gameStarted ? 'invisible' : ''} bg-stone-900`}>
                 <h1 className="text-white font-normal text-xl">FIND THE CHARACTERS</h1>
                 {imageUrl ? (
-                    <img className="mini-bg rounded-lg" src={imageUrl} alt="" />
+                    <img className="mini-bg rounded-lg w-80" src={imageUrl} alt="" />
                     ) : (
                     <img className="mini-bg rounded-lg" src={`${import.meta.env.BASE_URL}images/universe-113-poster crop blur.jpg`} alt="" />
                 )}
                 {!isLoggedIn ? (
                     <button onClick={handleLoginClick}
-                    className="rounded-lg text-sm w-full p-2">
+                    className="rounded-lg text-sm w-full p-2 bg-stone-800">
                         {`${isLoggedIn ? 'LOG OUT' : 'LOG IN WITH GOOGLE'}`}
                     </button>
                 ) : (
@@ -60,7 +60,7 @@ const StartupScreen = () => {
                         <InitialProfileStatus />
                     </div>
                 )}
-                <button onClick={startGame} className="rounded-lg text-sm w-full p-2">
+                <button onClick={startGame} className="rounded-lg text-sm w-full p-2 bg-orange-600">
                     START GAME
                 </button>
                 <ErrorModal />
