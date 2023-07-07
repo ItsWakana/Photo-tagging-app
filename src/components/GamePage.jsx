@@ -9,10 +9,6 @@ import ScoreTab from './ScoreTab';
 import NavigationTab from './Navigation';
 
 const GamePage = () => {
-
-    //TODO: ADD PULL OUT MENU TO THE LEFT SO THE LOGGED IN USER CAN SEE THE LEADERBOARDS OF OTHER PLAYERS. PERHAPS WE CAN IMPLEMENT A WAY FOR THE USER TO ADD A NICKNAME TO ASSOCIATE THEIR SCORE WITH, WHEN THE SUBMIT SCORE THING POPS OUT, DISPLAY THEIR DEFAULT USERNAME IN THE INPUT FIELD AND A WAY FOR THEM TO JUST UPDATE IT IF THEY WANT TO.
-
-    //THE DRAWER THE PULLS OUT SHOULD JUST HAVE A LITTLE ARROW THAT THE USER CAN CLICK WHICH WOULD OPEN THE MENU RIGHT OUT.
     
     const { handleImageClick, imageIsClicked, boxSelectorRef } = useContext(ImageInteractionContext);
     const { gameStarted } = useContext(GameStateContext);
@@ -36,19 +32,17 @@ const GamePage = () => {
         gameStarted && (
             <>
                 <Header />
-                <ScoreTab />
                 <NavigationTab />
                 {imageUrl ? (
                     <>
                     <img onClick={handleImageClick} className="main-bg rounded-lg" src={imageUrl} alt=""/>
                     <div ref={boxSelectorRef}
-                    className={`box-click ${imageIsClicked ? 'visible' : ''}`}
+                    className={`box-click ${imageIsClicked ? 'visible' : ''} border-4 border-orange-600`}
                     ></div>
                     </>
                 ) : (
                     <div className="loading"></div>
                 )}
-                <Footer />
             </>
         )
     )
