@@ -63,8 +63,7 @@ const CharacterIcon = ({ character }) => {
                 ) : (
                     <div className="loading smaller"></div>
                 )}
-                {/* <img src={`${import.meta.env.BASE_URL}images/icons/${character.name}.png`} alt=""/> */}
-                <button onClick={checkCharacterFound} className={`character-btn ${imageIsClicked ? 'visible' : ''}`}>^</button>
+                <button onClick={checkCharacterFound} className={`character-btn ${imageIsClicked ? 'visible' : ''} bg-orange-600`}>^</button>
             </div>
         )
     )

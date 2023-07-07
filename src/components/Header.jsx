@@ -18,9 +18,9 @@ const Header = () => {
     const { submitScoreFirebase } = useContext(DatabaseContext);
     
     return (
-        <div className="header">
+        <div className="header bg-stone-900">
             <ErrorModal />
-            <div className={`header__character-picker ${imageIsClicked ? 'open' : ''}`}>
+            <div className={`header__character-picker ${imageIsClicked ? 'open' : ''} bg-stone-900`}>
 
                 {!isRunning ? (
                     <>

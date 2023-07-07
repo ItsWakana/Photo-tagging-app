@@ -9,11 +9,12 @@ const NavigationTab = () => {
     const { handleLoginClick } = useContext(DatabaseContext);
 
     return (
-        <div className="navigation-tab">
-            <h4 className="font-bold text-base text-white">
+        <div className="navigation-tab bg-stone-900">
+            {/* <h4 className="font-bold text-base text-white">
                 {`<=`}
-            </h4>
-            <button onClick={handleLoginClick} className="rounded-lg text-sm w-full p-2">
+            </h4> */}
+            <img src={`${import.meta.env.BASE_URL}images/icons/svg/home.svg`} className="svg-icon w-6"alt="home-icon"/>
+            <button onClick={handleLoginClick} className="rounded-lg text-sm w-full p-2 bg-orange-600">
                 {`${isLoggedIn ? 'LOG OUT' : 'LOG IN WITH GOOGLE'}`}
             </button>
         </div>
