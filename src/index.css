@@ -12,7 +12,6 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
     background-color: #e76a16;
 }
 
@@ -100,13 +99,18 @@ button:hover {
     align-items: center;
     position: fixed;
     top: 0;
-    left: 0;
+    left: 35px;
     color: white;
     padding: 10px 20px;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
     z-index: 9999;
+    transition: top 250ms ease-in;
+}
+
+.navigation-tab.hidden {
+    top: -265px;
 }
 
 .header__character-picker {
@@ -160,6 +164,10 @@ button:hover {
     opacity: 1;
 }
 
+.modal-toggle {
+    position: absolute;
+    bottom: -45px;
+}
 
 .box-click {
     position: absolute;

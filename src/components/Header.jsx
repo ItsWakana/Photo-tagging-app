@@ -24,12 +24,12 @@ const Header = () => {
 
                 {!isRunning ? (
                     <>
-                    <div>
+                    <div className="flex flex-col gap-3">
                     <input onChange={handleNicknameChange} value={nickname} type="text" placeholder="Nickname"/>
-                    <button onClick={submitScoreFirebase} className="rounded-lg text-sm w-50 h-10 py-2 px-1">Submit time</button>
-                    </div>
+                    <button onClick={submitScoreFirebase} className="rounded-lg text-sm w-50 h-10 py-2 px-1 bg-orange-600">Submit time</button>
                     <button onClick={restartGame}
-                    className="rounded-lg text-sm w-50 h-10 py-2 px-1">Play again</button>
+                    className="rounded-lg text-sm w-50 h-10 py-2 px-1 bg-orange-600">Play again</button>
+                    </div>
                     </>
                 ) : (
                     characters.map((character, i) => (

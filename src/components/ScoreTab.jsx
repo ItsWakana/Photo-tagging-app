@@ -10,8 +10,13 @@ const ScoreTab = () => {
     const { bestScore, elapsedTime } = useContext(GameStateContext);
     return (
         <div className="login-tab bg-stone-900">
-            <img className="rounded-xl w-7" src={`${user ? user.photoURL : null}`}/>
-            <h4 className="font-bold text-base text-white">
+            {user ? (
+                <img className="rounded-xl w-7" src={user.photoURL}/>
+
+            ) : (
+                null
+            )}
+            <h4 className={`font-bold text-base text-white ${user ? '' : 'pt-9'}`}>
                 CURRENT TIME
             </h4>
             <Timer />

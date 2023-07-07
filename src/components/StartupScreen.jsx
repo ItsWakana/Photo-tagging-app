@@ -42,7 +42,7 @@ const StartupScreen = () => {
 
     return (
         !gameStarted && (
-            <div className="flex items-start gap-6">
+            <div className="flex items-start gap-6 mt-40">
             <div className={`startup-menu ${gameStarted ? 'invisible' : ''} bg-stone-900`}>
                 <h1 className="text-white font-normal text-xl">FIND THE CHARACTERS</h1>
                 {imageUrl ? (
