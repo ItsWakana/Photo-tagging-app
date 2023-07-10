@@ -117,7 +117,6 @@ const DatabaseProvider = ({ children }) => {
         });
 
         const allScores = [...accScoresData, ...anonScoresData];
-        console.log(allScores);
         let scoresLimit = [];
 
         for (let i=0; i<allScores.length; i++) {
@@ -148,7 +147,6 @@ const DatabaseProvider = ({ children }) => {
             if (firebaseData) {
 
                 if (!bestScore) {
-                    console.log('no local best score yet');
                     setBestScore(firebaseData.bestScore);
                 }
                 await deleteDoc(doc(db, "/anon scores", sessionId));

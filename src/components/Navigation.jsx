@@ -25,7 +25,7 @@ const NavigationTab = () => {
                 {`${isLoggedIn ? 'LOG OUT' : 'LOG IN WITH GOOGLE'}`}
             </button>
             <ScoreTab />
-            <button onClick={toggleModal} className="modal-toggle rounded-lg w-full p-2 bg-orange-600">^</button>
+            <button onClick={toggleModal} className="modal-toggle rounded-lg w-full p-2 bg-orange-600">{isHidden ? 'v' : '^'}</button>
         </div>
     )
 }
