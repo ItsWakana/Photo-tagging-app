@@ -1,7 +1,7 @@
-import { useContext, useEffect, useState } from "react"
-import { UserContext } from "../context/UserContext";
-import { DatabaseContext } from "../context/DatabaseContext";
-import { GameStateContext } from "../context/GameStateContext";
+import { useEffect, useState } from "react"
+import { useUserContextState } from "../context/UserContext";
+import { useDatabaseContext } from "../context/DatabaseContext";
+import { useGameStateContext } from "../context/GameStateContext";
 import { storage } from "../firebaseSetup";
 import { ref, getDownloadURL } from "firebase/storage";
 import InitialProfileStatus from "./InitialProfileStatus";
@@ -10,15 +10,13 @@ import Leaderboard from "./Leaderboard";
 
 const StartupScreen = () => {
 
-    const { isLoggedIn } = useContext(UserContext);
+    const userState = useUserContextState();
 
-    const { gameStarted, toggleGameState, playerScores } = useContext(GameStateContext);
+    const { gameStarted, toggleGameState } = useGameStateContext();
 
-    const { handleLoginClick } = useContext(DatabaseContext);
+    const { handleLoginClick } = useDatabaseContext();
 
     const [imageUrl, setImageUrl] = useState(null);
-
-    //TODO: WHEN THE USER HAS LOGGED IN, DISPLAY A SMALL SECTION ABOVE WHICH SHOWS THEIR PROFILE ICON ASSOCIATED WITH THEIR GOOGLE ACCOUNT. (PERHAPS WE CAN DISPLAY THEIR HIGH SCORE AS WELL IF THEY HAVE ONE).
 
     useEffect(() => {
 
@@ -50,23 +48,22 @@ const StartupScreen = () => {
                     ) : (
                     <img className="mini-bg rounded-lg" src={`${import.meta.env.BASE_URL}images/universe-113-poster crop blur.jpg`} alt="" />
                 )}
-                {!isLoggedIn ? (
-                    <button onClick={handleLoginClick}
-                    className="rounded-lg text-sm w-full p-2 bg-stone-800">
-                        {`${isLoggedIn ? 'LOG OUT' : 'LOG IN WITH GOOGLE'}`}
-                    </button>
-                ) : (
+                {userState.isLoggedIn && (
                     <div className="absolute top-3 flex items-center flex-col gap-2">
                         <InitialProfileStatus />
                     </div>
                 )}
+                <button onClick={handleLoginClick}
+                    className="rounded-lg text-sm w-full p-2 bg-stone-800">
+                        {`${userState.isLoggedIn ? 'LOG OUT' : 'LOG IN WITH GOOGLE'}`}
+                </button>
                 <button onClick={startGame} className="rounded-lg text-sm w-full p-2 bg-orange-600">
                     START GAME
                 </button>
                 <ErrorModal />
 
             </div>
-            <Leaderboard />
+            {/* <Leaderboard /> */}
             </div>
         )
     )

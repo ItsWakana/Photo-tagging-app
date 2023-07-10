@@ -1,12 +1,13 @@
 import { useContext } from "react";
-import { UserContext } from "../context/UserContext";
+import { useUserContextState } from "../context/UserContext";
 import { GameStateContext } from "../context/GameStateContext";
 import { formatTime } from '../Helper Functions/timer';
 import Timer from "./Timer";
 
 const ScoreTab = () => {
 
-    const { user } = useContext(UserContext);
+    const { user } = useUserContextState();
+
     const { bestScore, elapsedTime } = useContext(GameStateContext);
     return (
         <div className="login-tab bg-stone-900">

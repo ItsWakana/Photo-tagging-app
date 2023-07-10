@@ -1,12 +1,11 @@
 import { useContext } from "react";
-import { UserContext } from "../context/UserContext";
+import { useUserContextState } from "../context/UserContext";
 import { GameStateContext } from "../context/GameStateContext";
 import { formatTime } from "../Helper Functions/timer";
 
 const InitialProfileStatus = () => {
 
-    const { user } = useContext(UserContext);
-
+    const { user } = useUserContextState();
     const { bestScore } = useContext(GameStateContext);
 
     const formattedScore = formatTime(bestScore);
