@@ -120,7 +120,6 @@ button:hover {
     gap: 8px;
     position: absolute;
     width: 200px;
-    height: 50px;
     left: 50%;
     transform: translateX(-50%);
     top: 50px;
@@ -131,9 +130,9 @@ button:hover {
     transition: height 250ms ease-in;
 }
 
-.header__character-picker.open {
+/* .header__character-picker.open {
     height: 80px;
-}
+} */
 
 .character-picker__character {
     display: flex;
@@ -224,7 +223,7 @@ button:hover {
     font-weight: bold;
     text-align: center;
     font-size: 0.7rem;
-    top: 103px;
+    top: 132px;
     z-index: 1000;
     background-color: #d72f2f;
     border-radius: 10px;

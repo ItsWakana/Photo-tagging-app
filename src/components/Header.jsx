@@ -20,12 +20,12 @@ const Header = () => {
     return (
         <div className="header bg-stone-900">
             <ErrorModal />
-            <div className={`header__character-picker ${imageIsClicked ? 'open' : ''} bg-stone-900`}>
+            <div className={`header__character-picker pt-3${imageIsClicked ? '' : ''}`}>
 
                 {!isRunning ? (
                     <>
                     <div className="flex flex-col gap-3">
-                    <input onChange={handleNicknameChange} value={nickname} type="text" placeholder="Nickname"/>
+                    <input className="rounded-md p-2" onChange={handleNicknameChange} value={nickname} type="text" placeholder="Nickname"/>
                     <button onClick={submitScoreFirebase} className="rounded-lg text-sm w-50 h-10 py-2 px-1 bg-orange-600">Submit time</button>
                     <button onClick={restartGame}
                     className="rounded-lg text-sm w-50 h-10 py-2 px-1 bg-orange-600">Play again</button>

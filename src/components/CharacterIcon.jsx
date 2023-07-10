@@ -59,7 +59,7 @@ const CharacterIcon = ({ character }) => {
             <div className="character-picker__character">
 
                 {imageUrl ? (
-                    <img src={imageUrl} alt=""/>
+                    <img className="border-2 border-orange-600" src={imageUrl} alt=""/>
                 ) : (
                     <div className="loading smaller"></div>
                 )}
