@@ -12,13 +12,11 @@ const StartupScreen = () => {
 
     const { isLoggedIn } = useContext(UserContext);
 
-    const { gameStarted, toggleGameState, playerScores } = useContext(GameStateContext);
+    const { gameStarted, toggleGameState } = useContext(GameStateContext);
 
     const { handleLoginClick } = useContext(DatabaseContext);
 
     const [imageUrl, setImageUrl] = useState(null);
-
-    //TODO: WHEN THE USER HAS LOGGED IN, DISPLAY A SMALL SECTION ABOVE WHICH SHOWS THEIR PROFILE ICON ASSOCIATED WITH THEIR GOOGLE ACCOUNT. (PERHAPS WE CAN DISPLAY THEIR HIGH SCORE AS WELL IF THEY HAVE ONE).
 
     useEffect(() => {
 
