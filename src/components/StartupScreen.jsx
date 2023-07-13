@@ -1,7 +1,7 @@
-import { useContext, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { useUserContextState } from "../context/UserContext";
-import { DatabaseContext } from "../context/DatabaseContext";
-import { GameStateContext } from "../context/GameStateContext";
+import { useDatabaseContext } from "../context/DatabaseContext";
+import { useGameStateContext } from "../context/GameStateContext";
 import { storage } from "../firebaseSetup";
 import { ref, getDownloadURL } from "firebase/storage";
 import InitialProfileStatus from "./InitialProfileStatus";
@@ -12,9 +12,9 @@ const StartupScreen = () => {
 
     const userState = useUserContextState();
 
-    const { gameStarted, toggleGameState } = useContext(GameStateContext);
+    const { gameStarted, toggleGameState } = useGameStateContext();
 
-    const { handleLoginClick } = useContext(DatabaseContext);
+    const { handleLoginClick } = useDatabaseContext();
 
     const [imageUrl, setImageUrl] = useState(null);
 

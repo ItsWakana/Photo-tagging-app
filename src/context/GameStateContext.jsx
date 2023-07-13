@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState, useContext } from "react";
 import ImageInteractionProvider from "./ImageInteractionContext";
 import PopupProvider from "./PopupContext";
 import UserProvider from "./UserContext";
@@ -49,13 +49,17 @@ const GameStateProvider = ({ children }) => {
         setGameStarted((prev) => !prev);
     }
 
-    const contextValue = {
-        gameStarted, toggleGameState, characters, setCharacters,
-        startTime, setStartTime, elapsedTime, setElapsedTime, 
-        isRunning, bestScore, setBestScore, restartGame, setPlayerScores, playerScores, googleAccountScore, setGoogleAccountScore
-    }
+    // const contextValue = {
+    //     gameStarted, toggleGameState, characters, setCharacters,
+    //     startTime, setStartTime, elapsedTime, setElapsedTime, 
+    //     isRunning, bestScore, setBestScore, restartGame, setPlayerScores, playerScores, googleAccountScore, setGoogleAccountScore
+    // }
     return (
-        <GameStateContext.Provider value={contextValue}>
+        <GameStateContext.Provider value={{
+            gameStarted, toggleGameState, characters, setCharacters,
+            startTime, setStartTime, elapsedTime, setElapsedTime, 
+            isRunning, bestScore, setBestScore, restartGame, setPlayerScores, playerScores, googleAccountScore, setGoogleAccountScore
+        }}>
         <ImageInteractionProvider>
             <PopupProvider>
                 <UserProvider>
@@ -67,6 +71,17 @@ const GameStateProvider = ({ children }) => {
         </ImageInteractionProvider>
         </GameStateContext.Provider>
     )
+}
+
+export const useGameStateContext = () => {
+
+    const { gameStarted, toggleGameState, characters, setCharacters,
+        startTime, setStartTime, elapsedTime, setElapsedTime, 
+        isRunning, bestScore, setBestScore, restartGame, setPlayerScores, playerScores, googleAccountScore, setGoogleAccountScore } = useContext(GameStateContext);
+
+    return { gameStarted, toggleGameState, characters, setCharacters,
+        startTime, setStartTime, elapsedTime, setElapsedTime, 
+        isRunning, bestScore, setBestScore, restartGame, setPlayerScores, playerScores, googleAccountScore, setGoogleAccountScore }
 }
 
 export default GameStateProvider;

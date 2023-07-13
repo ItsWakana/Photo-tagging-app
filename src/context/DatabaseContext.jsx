@@ -202,4 +202,11 @@ const DatabaseProvider = ({ children }) => {
     )
 }
 
+export const useDatabaseContext = () => {
+
+    const { submitScoreFirebase, handleLoginClick, handleCharacterQuery, getScores } = useContext(DatabaseContext);
+
+    return { submitScoreFirebase, handleLoginClick, handleCharacterQuery, getScores };
+}
+
 export default DatabaseProvider;
