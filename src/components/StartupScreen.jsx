@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react"
-import { UserContext } from "../context/UserContext";
+import { useUserContextState } from "../context/UserContext";
 import { DatabaseContext } from "../context/DatabaseContext";
 import { GameStateContext } from "../context/GameStateContext";
 import { storage } from "../firebaseSetup";
@@ -10,7 +10,7 @@ import Leaderboard from "./Leaderboard";
 
 const StartupScreen = () => {
 
-    const { isLoggedIn } = useContext(UserContext);
+    const userState = useUserContextState();
 
     const { gameStarted, toggleGameState } = useContext(GameStateContext);
 
@@ -48,10 +48,10 @@ const StartupScreen = () => {
                     ) : (
                     <img className="mini-bg rounded-lg" src={`${import.meta.env.BASE_URL}images/universe-113-poster crop blur.jpg`} alt="" />
                 )}
-                {!isLoggedIn ? (
+                {!userState.isLoggedIn ? (
                     <button onClick={handleLoginClick}
                     className="rounded-lg text-sm w-full p-2 bg-stone-800">
-                        {`${isLoggedIn ? 'LOG OUT' : 'LOG IN WITH GOOGLE'}`}
+                        {`${userState.isLoggedIn ? 'LOG OUT' : 'LOG IN WITH GOOGLE'}`}
                     </button>
                 ) : (
                     <div className="absolute top-3 flex items-center flex-col gap-2">

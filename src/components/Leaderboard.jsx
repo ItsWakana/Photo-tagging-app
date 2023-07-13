@@ -2,13 +2,10 @@ import { useContext, useEffect } from "react";
 import { GameStateContext } from "../context/GameStateContext";
 import { DatabaseContext } from "../context/DatabaseContext";
 import { formatTime } from "../Helper Functions/timer";
-import { UserContext } from "../context/UserContext";
 
 const Leaderboard = () => {
 
     const { playerScores } = useContext(GameStateContext);
-
-    const { isLoggedIn } = useContext(UserContext);
 
     const { getScores } = useContext(DatabaseContext);
 

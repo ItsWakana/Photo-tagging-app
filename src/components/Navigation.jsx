@@ -1,13 +1,12 @@
 import { useContext, useState } from "react";
-import { UserContext } from "../context/UserContext";
+import { useUserContextState } from "../context/UserContext";
 import { DatabaseContext } from "../context/DatabaseContext";
 import { GameStateContext } from "../context/GameStateContext";
 import ScoreTab from "./ScoreTab";
 
 const NavigationTab = () => {
 
-    const { isLoggedIn } = useContext(UserContext);
-
+    const { isLoggedIn } = useUserContextState();
     const { handleLoginClick } = useContext(DatabaseContext);
 
     const { restartGame } = useContext(GameStateContext);
