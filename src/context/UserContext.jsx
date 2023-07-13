@@ -1,5 +1,6 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { v4 as uuidv4 } from 'uuid';
+
 export const UserContext = createContext({});
 
 const UserProvider = ({ children }) => {
@@ -31,6 +32,13 @@ const UserProvider = ({ children }) => {
             {children}
         </UserContext.Provider>
     )
+}
+
+export const useUserContextState = () => {
+
+
+    const {user , setUser, isLoggedIn, setIsLoggedIn, nickname, handleNicknameChange, setNickname, sessionId} = useContext(UserContext);
+    return {user , setUser, isLoggedIn, setIsLoggedIn, nickname, handleNicknameChange, setNickname, sessionId};
 }
 
 export default UserProvider;

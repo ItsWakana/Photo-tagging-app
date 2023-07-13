@@ -1,8 +1,8 @@
 import { createContext, useContext, useState } from "react";
 import { PopupContext } from "./PopupContext";
 import { GameStateContext } from "./GameStateContext";
-import { UserContext } from "./UserContext";
 import { ImageInteractionContext } from "./ImageInteractionContext";
+import { useUserContextState } from "./UserContext";
 import { checkCoordinates } from "../Helper Functions/checkCoordinates";
 import { doc, setDoc, updateDoc, getDoc, getDocs, collection, deleteField, deleteDoc } from "firebase/firestore";
 import {
@@ -21,11 +21,11 @@ const DatabaseProvider = ({ children }) => {
     
     const { setImageIsClicked, currentCoordinate } = useContext(ImageInteractionContext);
 
-    const { user, setUser, isLoggedIn, setIsLoggedIn,
-    nickname, setNickname, sessionId } = useContext(UserContext);
-
+    
     const { bestScore, setBestScore, elapsedTime, setPlayerScores,
-    googleAccountScore, setGoogleAccountScore } = useContext(GameStateContext);
+        googleAccountScore, setGoogleAccountScore } = useContext(GameStateContext);
+
+    const userState = useUserContextState();
 
     const submitScoreFirebase = async () => {
 
@@ -34,18 +34,17 @@ const DatabaseProvider = ({ children }) => {
 
         getScores();
         if (!bestScore) {
-            console.log('no best score');
-            if (!nickname) return;
+            if (!userState.nickname) return;
             try {
                 if (isLoggedIn) {
-                    await setDoc(doc(db, "/account scores", user.uid), {
+                    await setDoc(doc(db, "/account scores", userState.user.uid), {
                         bestScore: elapsedTime,
-                        nickname
+                        nickname: userState.nickname
                     });
                 } else {
-                    await setDoc(doc(db, "/anon scores", sessionId), {
+                    await setDoc(doc(db, "/anon scores", userState.sessionId), {
                         bestScore: elapsedTime,
-                        nickname
+                        nickname: userState.nickname
                     });
                 }
 
@@ -59,16 +58,16 @@ const DatabaseProvider = ({ children }) => {
         } else if (bestScore > elapsedTime) {
 
             try {
-                if (isLoggedIn) {
-                    await updateDoc(doc(db, "/account scores", user.uid), {
+                if (userState.isLoggedIn) {
+                    await updateDoc(doc(db, "/account scores", userState.user.uid), {
                         bestScore: elapsedTime, 
-                        nickname
+                        nickname: userState.nickname
                     });
 
                 } else {
-                    await updateDoc(doc(db, "/anon scores", sessionId), {
+                    await updateDoc(doc(db, "/anon scores", userState.sessionId), {
                         bestScore: elapsedTime,
-                        nickname
+                        nickname: userState.nickname
                     })
                 }
                 setBestScore(elapsedTime);
@@ -129,10 +128,10 @@ const DatabaseProvider = ({ children }) => {
 
     const handleLoginClick = async () => {
 
-        if (isLoggedIn) {
+        if (userState.isLoggedIn) {
             signOut(getAuth());
-            setUser(null);
-            setIsLoggedIn(false);
+            userState.setUser(null);
+            userState.setIsLoggedIn(false);
             return;
         }
 
@@ -140,8 +139,8 @@ const DatabaseProvider = ({ children }) => {
             const provider = new GoogleAuthProvider();
             await signInWithPopup(getAuth(), provider);
             const auth = getAuth();
-            setUser(auth.currentUser);
-            setIsLoggedIn(true);
+            userState.setUser(auth.currentUser);
+            userState.setIsLoggedIn(true);
             const firebaseData = await getFirebaseData(auth.currentUser.uid);
             getScores();
             if (firebaseData) {
@@ -149,17 +148,14 @@ const DatabaseProvider = ({ children }) => {
                 if (!bestScore) {
                     setBestScore(firebaseData.bestScore);
                 }
-                await deleteDoc(doc(db, "/anon scores", sessionId));
+                await deleteDoc(doc(db, "/anon scores", userState.sessionId));
 
-                setNickname(firebaseData.nickname);
+                userState.setNickname(firebaseData.nickname);
                 setGoogleAccountScore(firebaseData.bestScore);
                 if (bestScore && bestScore < firebaseData.bestScore) {
-                    console.log('rewrite database');
-                    console.log(bestScore);
-                    console.log(nickname);
                     await updateDoc(doc(db, "/account scores", auth.currentUser.uid), {
                         bestScore,
-                        nickname
+                        nickname: userState.nickname
                     })
                 } else if (bestScore && bestScore > firebaseData.bestScore) {
                     setBestScore(firebaseData.bestScore);
@@ -168,19 +164,19 @@ const DatabaseProvider = ({ children }) => {
                 //no firebase data available for the user
 
                 if (!bestScore) return;
-                await deleteDoc(doc(db, "/anon scores", sessionId));
+                await deleteDoc(doc(db, "/anon scores", userState.sessionId));
 
                 await setDoc(doc(db, "/account scores", auth.currentUser.uid), {
                     bestScore,
-                    nickname
+                    nickname: userState.nickname
                 });
 
 
             }
         } catch(err) {
             console.log(err);
-            setUser(null);
-            setIsLoggedIn(false);
+            userState.setUser(null);
+            userState.setIsLoggedIn(false);
             handlePopupType("Sign in failed", false);
         }
     }
