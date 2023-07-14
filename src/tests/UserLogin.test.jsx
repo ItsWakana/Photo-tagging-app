@@ -1,27 +1,21 @@
 import { render, screen } from "@testing-library/react";
 import StartupScreen from "../components/StartupScreen";
-import GameStateProvider, { GameStateContext } from "../context/GameStateContext";
-import DatabaseProvider, { DatabaseContext } from "../context/DatabaseContext";
 import userEvent from "@testing-library/user-event";
 import { vi } from "vitest";
 
+const handleLoginClickMock = vi.fn()
+
+vi.mock('../context/DatabaseContext', () => ({
+    useDatabaseContext: () => ({
+      handleLoginClick: handleLoginClickMock,
+    }),
+}));
+
 describe("StartupScreen component", () => {
 
-    it("mocks google log in and displays users score if they have played before", async () => {
-
-        // const mockHandleLoginClick = vi.fn();
-
-        // const gameStateContextMock = {
-        //     bestScore: 12939,
-        //     playerScores: [],
-        // }
+    it("clicks log in and mocks log state on screen", async () => {
         
         render(
-            // <GameStateContext.Provider value={gameStateContextMock}>
-            //     <DatabaseProvider value={{handleLoginClick: mockHandleLoginClick}}>
-            //         <StartupScreen />
-            //     </DatabaseProvider>
-            // </GameStateContext.Provider>
             <StartupScreen />
         );
 
@@ -33,8 +27,9 @@ describe("StartupScreen component", () => {
         await user.click(loginButton);
 
         expect(loginButton).toBeInTheDocument();
+        expect(handleLoginClickMock).toHaveBeenCalled();
 
-        // expect(mockHandleLoginClick).toHaveBeenCalled();
-
+        //I want to somehow mock the log in authentication and change my log in state so that it displays that its logged in.
+        expect(screen.getByRole("button", {name: /log out/i})).toBeInTheDocument();
     });
 });

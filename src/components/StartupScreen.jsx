@@ -48,23 +48,22 @@ const StartupScreen = () => {
                     ) : (
                     <img className="mini-bg rounded-lg" src={`${import.meta.env.BASE_URL}images/universe-113-poster crop blur.jpg`} alt="" />
                 )}
-                {!userState.isLoggedIn ? (
-                    <button onClick={handleLoginClick}
-                    className="rounded-lg text-sm w-full p-2 bg-stone-800">
-                        {`${userState.isLoggedIn ? 'LOG OUT' : 'LOG IN WITH GOOGLE'}`}
-                    </button>
-                ) : (
+                {userState.isLoggedIn && (
                     <div className="absolute top-3 flex items-center flex-col gap-2">
                         <InitialProfileStatus />
                     </div>
                 )}
+                <button onClick={handleLoginClick}
+                    className="rounded-lg text-sm w-full p-2 bg-stone-800">
+                        {`${userState.isLoggedIn ? 'LOG OUT' : 'LOG IN WITH GOOGLE'}`}
+                </button>
                 <button onClick={startGame} className="rounded-lg text-sm w-full p-2 bg-orange-600">
                     START GAME
                 </button>
                 <ErrorModal />
 
             </div>
-            <Leaderboard />
+            {/* <Leaderboard /> */}
             </div>
         )
     )

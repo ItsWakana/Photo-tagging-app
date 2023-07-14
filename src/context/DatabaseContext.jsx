@@ -36,7 +36,7 @@ const DatabaseProvider = ({ children }) => {
         if (!bestScore) {
             if (!userState.nickname) return;
             try {
-                if (isLoggedIn) {
+                if (userState.isLoggedIn) {
                     await setDoc(doc(db, "/account scores", userState.user.uid), {
                         bestScore: elapsedTime,
                         nickname: userState.nickname
