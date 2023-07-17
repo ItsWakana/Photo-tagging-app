@@ -6,7 +6,7 @@ import { storage } from "../firebaseSetup";
 import { ref, getDownloadURL } from "firebase/storage";
 import InitialProfileStatus from "./InitialProfileStatus";
 import ErrorModal from "./ErrorModal";
-import Leaderboard from "./Leaderboard";
+import LeaderboardController from "./LeaderboardController";
 
 const StartupScreen = () => {
 
@@ -64,6 +64,7 @@ const StartupScreen = () => {
 
             </div>
             {/* <Leaderboard /> */}
+            <LeaderboardController />
             </div>
         )
     )

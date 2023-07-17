@@ -1,11 +1,10 @@
 import { useContext, useEffect } from "react";
-// import { GameStateContext } from "../context/GameStateContext";
 import { useGameStateContext } from "../context/GameStateContext";
 import { DatabaseContext } from "../context/DatabaseContext";
 import { useDatabaseContext } from "../context/DatabaseContext";
 import { formatTime } from "../Helper Functions/timer";
 
-const Leaderboard = () => {
+const LeaderboardController = () => {
 
     const { playerScores } = useGameStateContext();
 
@@ -14,6 +13,14 @@ const Leaderboard = () => {
     useEffect(() => {
         getScores();
     },[]);
+
+    console.log(playerScores);
+    return (
+        <Leaderboard playerScores={playerScores}/>
+    )
+}
+
+export const Leaderboard = ({ playerScores }) => {
     
     return (
         <div className="leaderboard text-white flex items-center flex-col bg-stone-900 w-60">
@@ -37,4 +44,4 @@ const Leaderboard = () => {
     )     
 }
 
-export default Leaderboard;
+export default LeaderboardController;
