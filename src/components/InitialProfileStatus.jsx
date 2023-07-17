@@ -3,6 +3,10 @@ import { useUserContextState } from "../context/UserContext";
 import { GameStateContext } from "../context/GameStateContext";
 import { formatTime } from "../Helper Functions/timer";
 
+const ProfileStatusController = () => {
+
+    //TODO: WE CAN STORE OUR STATE AND LOGIC INSIDE THE CONTROLLER AND THEN JUST PASS THIS STATE DOWN TO THE PROFILE STATUS VIEW DIRECTLY. THIS WAY WE CAN TEST THE PROFILE STATUS COMPONENT WITHOUT WORRYING ABOUT THE CONTEXT DEPENDENCIES.
+}
 const InitialProfileStatus = () => {
 
     const { user } = useUserContextState();
