@@ -1,17 +1,16 @@
 import { useContext, useEffect, useState } from 'react'
 import { ImageInteractionContext } from '../context/ImageInteractionContext';
-import { GameStateContext } from '../context/GameStateContext';
+// import { GameStateContext } from '../context/GameStateContext';
+import { useGameStateContext } from '../context/GameStateContext';
 import Header from './Header';
-import Footer from './Footer';
 import { getDownloadURL, ref } from 'firebase/storage';
 import { storage } from '../firebaseSetup';
-import ScoreTab from './ScoreTab';
 import NavigationTab from './Navigation';
 
 const GamePage = () => {
     
     const { handleImageClick, imageIsClicked, boxSelectorRef } = useContext(ImageInteractionContext);
-    const { gameStarted } = useContext(GameStateContext);
+    const { gameStarted } = useGameStateContext();
     const [imageUrl, setImageUrl] = useState(null);
 
     useEffect(() => {

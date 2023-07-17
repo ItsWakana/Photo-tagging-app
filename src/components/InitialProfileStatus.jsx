@@ -1,18 +1,28 @@
-import { useContext } from "react";
 import { useUserContextState } from "../context/UserContext";
-import { GameStateContext } from "../context/GameStateContext";
+import { useGameStateContext } from "../context/GameStateContext";
 import { formatTime } from "../Helper Functions/timer";
 
-const InitialProfileStatus = () => {
+const ProfileStatusController = () => {
 
     const { user } = useUserContextState();
-    const { bestScore } = useContext(GameStateContext);
-
-    const formattedScore = formatTime(bestScore);
+    const { bestScore } = useGameStateContext();
     
+    const formattedScore = formatTime(bestScore);
+
+    return (
+        <InitialProfileStatus user={user} bestScore={bestScore} formattedScore={formattedScore}/>
+    )
+}
+export const InitialProfileStatus = ({
+    user,
+    bestScore,
+    formattedScore
+}) => {
+    console.log(user);
+    console.log(bestScore);
     return (
         <>
-        <img className="rounded-full w-10" src={user.photoURL} alt="" />
+        <img className="rounded-full w-10" src={user.photoURL} alt="user-icon" />
 
 
         {bestScore ? (
@@ -33,4 +43,4 @@ const InitialProfileStatus = () => {
     )
 }
 
-export default InitialProfileStatus;
+export default ProfileStatusController;

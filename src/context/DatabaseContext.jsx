@@ -1,6 +1,6 @@
 import { createContext, useContext, useState } from "react";
 import { PopupContext } from "./PopupContext";
-import { GameStateContext } from "./GameStateContext";
+import { useGameStateContext } from "./GameStateContext";
 import { ImageInteractionContext } from "./ImageInteractionContext";
 import { useUserContextState } from "./UserContext";
 import { checkCoordinates } from "../Helper Functions/checkCoordinates";
@@ -22,8 +22,7 @@ const DatabaseProvider = ({ children }) => {
     const { setImageIsClicked, currentCoordinate } = useContext(ImageInteractionContext);
 
     
-    const { bestScore, setBestScore, elapsedTime, setPlayerScores,
-        googleAccountScore, setGoogleAccountScore } = useContext(GameStateContext);
+    const { bestScore, setBestScore, elapsedTime, setPlayerScores } = useGameStateContext();
 
     const userState = useUserContextState();
 
@@ -116,14 +115,14 @@ const DatabaseProvider = ({ children }) => {
         });
 
         const allScores = [...accScoresData, ...anonScoresData];
-        let scoresLimit = [];
+        // let scoresLimit = [];
 
-        for (let i=0; i<allScores.length; i++) {
-            if (i==5) break;
-            scoresLimit.push(allScores[i]);
-        }
-        // setPlayerScores([...accScoresData, ...anonScoresData]);
-        setPlayerScores(scoresLimit);
+        // for (let i=0; i<allScores.length; i++) {
+        //     if (i==5) break;
+        //     scoresLimit.push(allScores[i]);
+        // }
+        setPlayerScores(allScores);
+        return allScores;
     }
 
     const handleLoginClick = async () => {
@@ -151,7 +150,7 @@ const DatabaseProvider = ({ children }) => {
                 await deleteDoc(doc(db, "/anon scores", userState.sessionId));
 
                 userState.setNickname(firebaseData.nickname);
-                setGoogleAccountScore(firebaseData.bestScore);
+                // setGoogleAccountScore(firebaseData.bestScore);
                 if (bestScore && bestScore < firebaseData.bestScore) {
                     await updateDoc(doc(db, "/account scores", auth.currentUser.uid), {
                         bestScore,

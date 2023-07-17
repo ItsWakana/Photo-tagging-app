@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { ImageInteractionContext } from "../context/ImageInteractionContext";
-import { GameStateContext } from "../context/GameStateContext";
+import { useGameStateContext } from "../context/GameStateContext";
 import { useUserContextState } from "../context/UserContext";
 import CharacterIcon from "./CharacterIcon";
 import ErrorModal from "./ErrorModal";
@@ -10,7 +10,7 @@ const Header = () => {
 
     const { imageIsClicked } = useContext(ImageInteractionContext);
 
-    const { characters, isRunning, restartGame } = useContext(GameStateContext);
+    const { characters, isRunning, restartGame } = useGameStateContext();
 
     const userState = useUserContextState();
 

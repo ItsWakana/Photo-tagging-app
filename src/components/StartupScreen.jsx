@@ -4,12 +4,11 @@ import { useDatabaseContext } from "../context/DatabaseContext";
 import { useGameStateContext } from "../context/GameStateContext";
 import { storage } from "../firebaseSetup";
 import { ref, getDownloadURL } from "firebase/storage";
-import InitialProfileStatus from "./InitialProfileStatus";
+import ProfileStatusController from "./InitialProfileStatus";
 import ErrorModal from "./ErrorModal";
-import Leaderboard from "./Leaderboard";
+import LeaderboardController from "./LeaderboardController";
 
 const StartupScreen = () => {
-
     const userState = useUserContextState();
 
     const { gameStarted, toggleGameState } = useGameStateContext();
@@ -50,7 +49,7 @@ const StartupScreen = () => {
                 )}
                 {userState.isLoggedIn && (
                     <div className="absolute top-3 flex items-center flex-col gap-2">
-                        <InitialProfileStatus />
+                        <ProfileStatusController />
                     </div>
                 )}
                 <button onClick={handleLoginClick}
@@ -63,7 +62,7 @@ const StartupScreen = () => {
                 <ErrorModal />
 
             </div>
-            {/* <Leaderboard /> */}
+            <LeaderboardController />
             </div>
         )
     )

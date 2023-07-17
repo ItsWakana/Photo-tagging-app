@@ -1,20 +1,29 @@
 import { useContext, useEffect } from "react";
-// import { GameStateContext } from "../context/GameStateContext";
 import { useGameStateContext } from "../context/GameStateContext";
 import { DatabaseContext } from "../context/DatabaseContext";
 import { useDatabaseContext } from "../context/DatabaseContext";
 import { formatTime } from "../Helper Functions/timer";
 
-const Leaderboard = () => {
+const LeaderboardController = () => {
 
     const { playerScores } = useGameStateContext();
-
     const { getScores } = useDatabaseContext();
+
+    const topScorers = playerScores.toSorted((a, b) => a.bestScore - b.bestScore).slice(0, 5);
 
     useEffect(() => {
         getScores();
     },[]);
+
+    return (
+        <Leaderboard playerScores={topScorers}/>
+    )
+}
+
+export const Leaderboard = ({ playerScores }) => {
     
+    if (playerScores.length > 5) return null;
+
     return (
         <div className="leaderboard text-white flex items-center flex-col bg-stone-900 w-60">
             <h1 className="text-xl font-bold pb-5">Leaderboard</h1>
@@ -30,11 +39,11 @@ const Leaderboard = () => {
                         </li>
                     ))}
                 </ul>
-                : <div className="loading"></div>
+                : <div data-testid="loading-div" className="loading"></div>
                 }
 
         </div>
     )     
 }
 
-export default Leaderboard;
+export default LeaderboardController;
