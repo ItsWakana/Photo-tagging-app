@@ -122,7 +122,6 @@ const DatabaseProvider = ({ children }) => {
             if (i==5) break;
             scoresLimit.push(allScores[i]);
         }
-        // setPlayerScores([...accScoresData, ...anonScoresData]);
         setPlayerScores(scoresLimit);
     }
 

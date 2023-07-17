@@ -10,13 +10,14 @@ const LeaderboardController = () => {
 
     const { getScores } = useDatabaseContext();
 
+    const topScorers = playerScores.toSorted((a, b) => a.bestScore - b.bestScore);
+
     useEffect(() => {
         getScores();
     },[]);
 
-    console.log(playerScores);
     return (
-        <Leaderboard playerScores={playerScores}/>
+        <Leaderboard playerScores={topScorers}/>
     )
 }
 
@@ -37,7 +38,7 @@ export const Leaderboard = ({ playerScores }) => {
                         </li>
                     ))}
                 </ul>
-                : <div className="loading"></div>
+                : <div data-testid="loading-div" className="loading"></div>
                 }
 
         </div>
