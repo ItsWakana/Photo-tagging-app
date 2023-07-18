@@ -1,6 +1,6 @@
 import { createContext, useContext, useState } from "react";
 import { PopupContext } from "./PopupContext";
-import { GameStateContext } from "./GameStateContext";
+import { useGameStateContext } from "./GameStateContext";
 import { ImageInteractionContext } from "./ImageInteractionContext";
 import { useUserContextState } from "./UserContext";
 import { checkCoordinates } from "../Helper Functions/checkCoordinates";
@@ -22,7 +22,7 @@ const DatabaseProvider = ({ children }) => {
     const { setImageIsClicked, currentCoordinate } = useContext(ImageInteractionContext);
 
     
-    const { bestScore, setBestScore, elapsedTime, setPlayerScores } = useContext(GameStateContext);
+    const { bestScore, setBestScore, elapsedTime, setPlayerScores } = useGameStateContext();
 
     const userState = useUserContextState();
 

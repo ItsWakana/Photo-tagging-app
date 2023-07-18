@@ -9,3 +9,11 @@ export const useGameScores = () => {
     return { playerScores, setPlayerScores, bestScore, setBestScore, googleAccountScore, setGoogleAccountScore }
 }
 
+export const useTimers = () => {
+
+    const [startTime, setStartTime] = useState(null);
+    const [elapsedTime, setElapsedTime] = useState(0);
+
+    return { startTime, setStartTime, elapsedTime, setElapsedTime }
+}
+

@@ -7,6 +7,7 @@ import { formatTime } from "../Helper Functions/timer";
 const LeaderboardController = () => {
 
     const { playerScores } = useGameStateContext();
+    console.log(playerScores);
     const { getScores } = useDatabaseContext();
 
     const topScorers = playerScores.toSorted((a, b) => a.bestScore - b.bestScore);

@@ -1,6 +1,5 @@
-import { useContext } from "react";
 import { useUserContextState } from "../context/UserContext";
-import { GameStateContext } from "../context/GameStateContext";
+import { useGameStateContext } from "../context/GameStateContext";
 import { formatTime } from "../Helper Functions/timer";
 
 const ProfileStatusController = () => {
@@ -10,7 +9,7 @@ const ProfileStatusController = () => {
 const InitialProfileStatus = () => {
 
     const { user } = useUserContextState();
-    const { bestScore } = useContext(GameStateContext);
+    const { bestScore } = useGameStateContext();
 
     const formattedScore = formatTime(bestScore);
     
