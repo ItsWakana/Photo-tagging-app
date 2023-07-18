@@ -3,7 +3,7 @@ import ImageInteractionProvider from "./ImageInteractionContext";
 import PopupProvider from "./PopupContext";
 import UserProvider from "./UserContext";
 import DatabaseProvider from "./DatabaseContext";
-import { BrowserRouter } from "react-router-dom";
+import { useGameScores } from "../Hooks/GameStateHooks";
 
 export const GameStateContext = createContext({});
 
@@ -15,9 +15,10 @@ const GameStateProvider = ({ children }) => {
     const [elapsedTime, setElapsedTime] = useState(0);
     const [isRunning, setIsRunning] = useState(true);
 
-    const [playerScores, setPlayerScores] = useState([]);
-    const [bestScore, setBestScore] = useState(null);
-    const [googleAccountScore, setGoogleAccountScore] = useState(null);
+    // const [playerScores, setPlayerScores] = useState([]);
+    // const [bestScore, setBestScore] = useState(null);
+    // const [googleAccountScore, setGoogleAccountScore] = useState(null);
+    const gameScores = useGameScores();
 
     const initialCharacterState = [
         { name: "Arnold", isFound: false },
@@ -49,17 +50,21 @@ const GameStateProvider = ({ children }) => {
         setGameStarted((prev) => !prev);
     }
 
-    // const contextValue = {
-    //     gameStarted, toggleGameState, characters, setCharacters,
-    //     startTime, setStartTime, elapsedTime, setElapsedTime, 
-    //     isRunning, bestScore, setBestScore, restartGame, setPlayerScores, playerScores, googleAccountScore, setGoogleAccountScore
-    // }
+    const contextValue = {
+        gameStarted,
+        toggleGameState,
+        characters,
+        setCharacters,
+        startTime,
+        setStartTime,
+        elapsedTime,
+        setElapsedTime,
+        isRunning,
+        restartGame,
+        ...gameScores
+    }
     return (
-        <GameStateContext.Provider value={{
-            gameStarted, toggleGameState, characters, setCharacters,
-            startTime, setStartTime, elapsedTime, setElapsedTime, 
-            isRunning, bestScore, setBestScore, restartGame, setPlayerScores, playerScores, googleAccountScore, setGoogleAccountScore
-        }}>
+        <GameStateContext.Provider value={contextValue}>
         <ImageInteractionProvider>
             <PopupProvider>
                 <UserProvider>
@@ -75,13 +80,14 @@ const GameStateProvider = ({ children }) => {
 
 export const useGameStateContext = () => {
 
-    const { gameStarted, toggleGameState, characters, setCharacters,
-        startTime, setStartTime, elapsedTime, setElapsedTime, 
-        isRunning, bestScore, setBestScore, restartGame, setPlayerScores, playerScores, googleAccountScore, setGoogleAccountScore } = useContext(GameStateContext);
+    // const { gameStarted, toggleGameState, characters, setCharacters,
+    //     startTime, setStartTime, elapsedTime, setElapsedTime, 
+    //     isRunning, restartGame, gameScores } = useContext(GameStateContext);
 
-    return { gameStarted, toggleGameState, characters, setCharacters,
-        startTime, setStartTime, elapsedTime, setElapsedTime, 
-        isRunning, bestScore, setBestScore, restartGame, setPlayerScores, playerScores, googleAccountScore, setGoogleAccountScore }
+    // return { gameStarted, toggleGameState, characters, setCharacters,
+    //     startTime, setStartTime, elapsedTime, setElapsedTime, 
+    //     isRunning, restartGame, gameScores }
+    return useContext(GameStateContext);
 }
 
 export default GameStateProvider;

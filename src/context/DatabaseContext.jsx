@@ -22,8 +22,7 @@ const DatabaseProvider = ({ children }) => {
     const { setImageIsClicked, currentCoordinate } = useContext(ImageInteractionContext);
 
     
-    const { bestScore, setBestScore, elapsedTime, setPlayerScores,
-        googleAccountScore, setGoogleAccountScore } = useContext(GameStateContext);
+    const { bestScore, setBestScore, elapsedTime, setPlayerScores } = useContext(GameStateContext);
 
     const userState = useUserContextState();
 
@@ -150,7 +149,7 @@ const DatabaseProvider = ({ children }) => {
                 await deleteDoc(doc(db, "/anon scores", userState.sessionId));
 
                 userState.setNickname(firebaseData.nickname);
-                setGoogleAccountScore(firebaseData.bestScore);
+                // setGoogleAccountScore(firebaseData.bestScore);
                 if (bestScore && bestScore < firebaseData.bestScore) {
                     await updateDoc(doc(db, "/account scores", auth.currentUser.uid), {
                         bestScore,
