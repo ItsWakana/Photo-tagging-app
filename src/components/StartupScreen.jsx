@@ -16,7 +16,7 @@ const StartupScreen = () => {
 
     const { handleLoginClick } = useDatabaseContext();
 
-    const [imageUrl, setImageUrl] = useInitialImage();
+    const [imageUrl] = useInitialImage();
     // const [imageUrl, setImageUrl] = useState(null);
 
     // useEffect(() => {
