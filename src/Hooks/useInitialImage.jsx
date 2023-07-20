@@ -3,16 +3,22 @@ import { useDatabaseContext } from "../context/DatabaseContext";
 const useInitialImage = () => {
 
     const [imageUrl, setImageUrl] = useState(null);
-
+    const [imageIsLoading, setImageIsLoading] = useState(true);
+    
     const { fetchImageFromFirebase } = useDatabaseContext();
 
     useEffect(() => {
 
         const getInitialImage = async () => {
+            try {
+                const url = await fetchImageFromFirebase('images/universe-113-poster crop.jpg');
+                setImageUrl(url);
+                setImageIsLoading(false);
 
-            const url = await fetchImageFromFirebase('images/universe-113-poster crop.jpg');
+            } catch(error) {
+                setImageIsLoading(false);
+            }
 
-            setImageUrl(url);
         }
 
         if (!imageUrl) {
@@ -20,7 +26,7 @@ const useInitialImage = () => {
         }
     },[]);
 
-    return [imageUrl, setImageUrl];
+    return [imageUrl, imageIsLoading];
 }
 
 export default useInitialImage;

@@ -16,24 +16,7 @@ const StartupScreen = () => {
 
     const { handleLoginClick } = useDatabaseContext();
 
-    const [imageUrl] = useInitialImage();
-    // const [imageUrl, setImageUrl] = useState(null);
-
-    // useEffect(() => {
-
-    //     const getInitialImage = async () => {
-
-    //         const imageRef = ref(storage, 'images/universe-113-poster crop.jpg');
-
-    //         const url = await getDownloadURL(imageRef);
-
-    //         setImageUrl(url);
-    //     }
-
-    //     if (!imageUrl) {
-    //         getInitialImage()
-    //     }
-    // },[]);
+    const [imageUrl, imageIsLoading] = useInitialImage();
 
     const startGame = () => {
         toggleGameState();
@@ -44,10 +27,11 @@ const StartupScreen = () => {
             <div className="flex items-start gap-6 mt-40">
             <div className={`startup-menu ${gameStarted ? 'invisible' : ''} bg-stone-900`}>
                 <h1 className="text-white font-normal text-xl">FIND THE CHARACTERS</h1>
-                {imageUrl ? (
-                    <img className="mini-bg rounded-lg w-80" src={imageUrl} alt="" />
+                {imageIsLoading ? (
+                    // <img className="mini-bg rounded-lg" src={`${import.meta.env.BASE_URL}images/universe-113-poster crop blur.jpg`} alt="" />
+                    <div className="loading"></div>
                     ) : (
-                    <img className="mini-bg rounded-lg" src={`${import.meta.env.BASE_URL}images/universe-113-poster crop blur.jpg`} alt="" />
+                    <img className="mini-bg rounded-lg w-80" src={imageUrl} alt="" />
                 )}
                 {userState.isLoggedIn && (
                     <div className="absolute top-3 flex items-center flex-col gap-2">
