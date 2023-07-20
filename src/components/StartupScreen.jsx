@@ -7,6 +7,7 @@ import { ref, getDownloadURL } from "firebase/storage";
 import ProfileStatusController from "./InitialProfileStatus";
 import ErrorModal from "./ErrorModal";
 import LeaderboardController from "./LeaderboardController";
+import useInitialImage from "../Hooks/useInitialImage";
 
 const StartupScreen = () => {
     const userState = useUserContextState();
@@ -15,23 +16,24 @@ const StartupScreen = () => {
 
     const { handleLoginClick } = useDatabaseContext();
 
-    const [imageUrl, setImageUrl] = useState(null);
+    const [imageUrl, setImageUrl] = useInitialImage();
+    // const [imageUrl, setImageUrl] = useState(null);
 
-    useEffect(() => {
+    // useEffect(() => {
 
-        const getInitialImage = async () => {
+    //     const getInitialImage = async () => {
 
-            const imageRef = ref(storage, 'images/universe-113-poster crop.jpg');
+    //         const imageRef = ref(storage, 'images/universe-113-poster crop.jpg');
 
-            const url = await getDownloadURL(imageRef);
+    //         const url = await getDownloadURL(imageRef);
 
-            setImageUrl(url);
-        }
+    //         setImageUrl(url);
+    //     }
 
-        if (!imageUrl) {
-            getInitialImage()
-        }
-    },[]);
+    //     if (!imageUrl) {
+    //         getInitialImage()
+    //     }
+    // },[]);
 
     const startGame = () => {
         toggleGameState();

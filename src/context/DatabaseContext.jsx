@@ -5,6 +5,8 @@ import { ImageInteractionContext } from "./ImageInteractionContext";
 import { useUserContextState } from "./UserContext";
 import { checkCoordinates } from "../Helper Functions/checkCoordinates";
 import { doc, setDoc, updateDoc, getDoc, getDocs, collection, deleteField, deleteDoc } from "firebase/firestore";
+import { ref, getDownloadURL } from "firebase/storage";
+import { storage } from "../firebaseSetup";
 import {
     getAuth,
     GoogleAuthProvider,
@@ -115,12 +117,7 @@ const DatabaseProvider = ({ children }) => {
         });
 
         const allScores = [...accScoresData, ...anonScoresData];
-        // let scoresLimit = [];
 
-        // for (let i=0; i<allScores.length; i++) {
-        //     if (i==5) break;
-        //     scoresLimit.push(allScores[i]);
-        // }
         setPlayerScores(allScores);
         return allScores;
     }
@@ -180,6 +177,14 @@ const DatabaseProvider = ({ children }) => {
         }
     }
 
+    const fetchImageFromFirebase = async (fileLocation) => {
+
+        const imageRef = ref(storage, fileLocation);
+
+        const url = await getDownloadURL(imageRef);
+
+        return url;
+    }
     const handleCharacterQuery = async (character) => {
         setImageIsClicked(false);
         const characterRef = doc(db, "characters", "character list");
@@ -193,7 +198,7 @@ const DatabaseProvider = ({ children }) => {
 
     return (
         <DatabaseContext.Provider value={{
-            submitScoreFirebase, handleLoginClick, handleCharacterQuery,
+            submitScoreFirebase, handleLoginClick, handleCharacterQuery, fetchImageFromFirebase,
             getScores
         }}>
             {children}
@@ -203,9 +208,9 @@ const DatabaseProvider = ({ children }) => {
 
 export const useDatabaseContext = () => {
 
-    const { submitScoreFirebase, handleLoginClick, handleCharacterQuery, getScores } = useContext(DatabaseContext);
+    const { submitScoreFirebase, handleLoginClick, handleCharacterQuery, fetchImageFromFirebase, getScores } = useContext(DatabaseContext);
 
-    return { submitScoreFirebase, handleLoginClick, handleCharacterQuery, getScores };
+    return { submitScoreFirebase, handleLoginClick, handleCharacterQuery, fetchImageFromFirebase, getScores };
 }
 
 export default DatabaseProvider;
