@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { ImageInteractionContext } from "../context/ImageInteractionContext";
 import { useGameStateContext } from "../context/GameStateContext";
 import { useUserContextState } from "../context/UserContext";
-import CharacterIcon from "./CharacterIcon";
+import CharacterIconController from "./CharacterIcon";
 import ErrorModal from "./ErrorModal";
 import { DatabaseContext } from "../context/DatabaseContext";
 
@@ -32,7 +32,7 @@ const Header = () => {
                     </>
                 ) : (
                     characters.map((character, i) => (
-                        <CharacterIcon key={i} character={character} />
+                        <CharacterIconController key={i} character={character} />
                     ))
                 )}
 
