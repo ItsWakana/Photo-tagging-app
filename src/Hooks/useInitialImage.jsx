@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDatabaseContext } from "../context/DatabaseContext";
-const useInitialImage = () => {
+const useInitialImage = (url) => {
 
     const [imageUrl, setImageUrl] = useState(null);
     const [imageIsLoading, setImageIsLoading] = useState(true);
@@ -9,9 +9,9 @@ const useInitialImage = () => {
 
     useEffect(() => {
 
-        const getInitialImage = async () => {
+        const getInitialImage = async (imageURL) => {
             try {
-                const url = await fetchImageFromFirebase('images/universe-113-poster crop.jpg');
+                const url = await fetchImageFromFirebase(imageURL);
                 setImageUrl(url);
                 setImageIsLoading(false);
 
@@ -22,7 +22,7 @@ const useInitialImage = () => {
         }
 
         if (!imageUrl) {
-            getInitialImage()
+            getInitialImage(url);
         }
     },[]);
 

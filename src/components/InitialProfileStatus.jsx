@@ -18,8 +18,7 @@ export const InitialProfileStatus = ({
     bestScore,
     formattedScore
 }) => {
-    console.log(user);
-    console.log(bestScore);
+
     return (
         <>
         <img className="rounded-full w-10" src={user.photoURL} alt="user-icon" />

@@ -3,8 +3,7 @@ import { ImageInteractionContext } from "../context/ImageInteractionContext";
 import { PopupContext } from "../context/PopupContext";
 import { useGameStateContext } from "../context/GameStateContext";
 import { DatabaseContext } from "../context/DatabaseContext";
-import { storage } from "../firebaseSetup";
-import { getDownloadURL, ref } from "firebase/storage";
+import useInitialImage from "../Hooks/useInitialImage";
 
 const CharacterIcon = ({ character }) => {
 
@@ -12,29 +11,13 @@ const CharacterIcon = ({ character }) => {
     const { setCharacters } = useGameStateContext();
     const { handlePopupType } = useContext(PopupContext);
     const { handleCharacterQuery } = useContext(DatabaseContext);
-    const [imageUrl, setImageUrl] = useState(null);
 
-    useEffect(() => {
-
-        const getInitialImage = async () => {
-            const iconRef = ref(storage, `images/icons/${character.name}.png`);
-
-            const url = await getDownloadURL(iconRef);
-
-            setImageUrl(url);
-        }
-
-        if (!imageUrl) {
-            getInitialImage();
-        }
-
-    },[]);
+    const [imageUrl, imageIsLoading] = useInitialImage(`images/icons/${character.name}.png`);
 
     const checkCharacterFound = async () => {
         try {
             const result = await handleCharacterQuery(character.name);
             if (result) {
-                // setIsFound(true);
                 setCharacters((prevCharacters) => {
                     return prevCharacters.map((char) => {
                         if (char.name === character.name) {
@@ -58,10 +41,10 @@ const CharacterIcon = ({ character }) => {
         !character.isFound && (
             <div className="character-picker__character">
 
-                {imageUrl ? (
-                    <img className="border-2 border-orange-600" src={imageUrl} alt=""/>
+                {imageIsLoading ? (
+                <div className="loading smaller"></div>
                 ) : (
-                    <div className="loading smaller"></div>
+                    <img className="border-2 border-orange-600" src={imageUrl} alt=""/>
                 )}
                 <button onClick={checkCharacterFound} className={`character-btn ${imageIsClicked ? 'visible' : ''} bg-orange-600`}>^</button>
             </div>

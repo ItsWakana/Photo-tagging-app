@@ -16,7 +16,7 @@ const StartupScreen = () => {
 
     const { handleLoginClick } = useDatabaseContext();
 
-    const [imageUrl, imageIsLoading] = useInitialImage();
+    const [imageUrl, imageIsLoading] = useInitialImage('images/universe-113-poster crop.jpg');
 
     const startGame = () => {
         toggleGameState();
