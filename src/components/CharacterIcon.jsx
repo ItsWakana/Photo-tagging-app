@@ -6,7 +6,7 @@ import { DatabaseContext } from "../context/DatabaseContext";
 import useInitialImage from "../Hooks/useInitialImage";
 
 const CharacterIconController = ({ character }) => {
-
+    
     const { imageIsClicked } = useContext(ImageInteractionContext);
     const { setCharacters } = useGameStateContext();
     const { handlePopupType } = useContext(PopupContext);
