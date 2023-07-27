@@ -1,0 +1,11 @@
+import { render, screen } from '@testing-library/react';
+import { CharacterIcon } from '../components/CharacterIcon';
+
+describe("CharacterIcon component", () => {
+
+    //WRITE TEST TO VERIFY THAT 3 CHARACTER ICONS ARE BEING RENDERED ON SCREEN.
+
+    //TEST OUT IF THE CHARACTER ICON IS LOADING, WE WANT TO RENDER OUT A LOADER OR SPINNER ICON TO INDICATE THIS.
+
+    //TEST IF THE CHARACTER HAS A FOUND PROPERTY, THEN WE CAN ASSERT THAT THE COMPONENT IS NULL, AS IT SHOULDN'T BE RENDERED.
+});
