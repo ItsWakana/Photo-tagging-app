@@ -55,11 +55,13 @@ export const CharacterIcon = ({
             <div className="character-picker__character">
 
                 {imageIsLoading ? (
-                <div className="loading smaller"></div>
+                <div className="loading smaller" data-testid="spinner"></div>
                 ) : (
-                    <img className="border-2 border-orange-600" src={imageUrl} alt=""/>
+                    <img className="border-2 border-orange-600" src={imageUrl} alt={`${character.name} icon`}/>
                 )}
-                <button onClick={checkCharacterFound} className={`character-btn ${imageIsClicked ? 'visible' : ''} bg-orange-600`}>^</button>
+                {imageIsClicked && (
+                      <button onClick={checkCharacterFound} className={`character-btn bg-orange-600`}>^</button>
+                )}
             </div>
         )
     )
