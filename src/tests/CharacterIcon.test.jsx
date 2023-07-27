@@ -1,5 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import { CharacterIcon } from '../components/CharacterIcon';
+import userEvent from "@testing-library/user-event";
+import { vi } from 'vitest';
+
 
 describe("CharacterIcon component", () => {
 
@@ -79,7 +82,45 @@ describe("CharacterIcon component", () => {
         expect(thirdCharacterIcon).toBeInTheDocument();
     });
 
-    //TEST IF THE CHARACTER HAS A FOUND PROPERTY, THEN WE CAN ASSERT THAT THE COMPONENT IS NULL, AS IT SHOULDN'T BE RENDERED.
+    it("Checks for a found character when correct button is clicked", async () => {
 
-    //TEST THAT WHEN THE IMAGE STATE IS SET TO CLICKED, AND WE CLICK THE ^ BUTTON, IT CALLS THE CHECKCHARACTERFOUND METHOD, WE CAN MOCK THIS FUNCTION OUT.
+        const characterMock1 = {
+            name: "Jamie", 
+            isFound: false
+        }
+
+        const characterMock2 = {
+            name: "Ryan",
+            isFound: false
+        }
+
+        const checkCharacterFoundMock = vi.fn();
+
+        render(
+            <>
+            <CharacterIcon 
+                character={characterMock1} 
+                checkCharacterFound={checkCharacterFoundMock}
+                imageIsClicked={true}
+            />
+            <CharacterIcon 
+                character={characterMock2} 
+                checkCharacterFound={checkCharacterFoundMock}
+                imageIsClicked={true}
+            />
+            
+            </>
+        );
+
+        const user = userEvent.setup();
+
+        const buttons = screen.getAllByText("^");
+
+        for (const button of buttons) {
+            await user.click(button);
+        }
+
+        expect(checkCharacterFoundMock).toBeCalledTimes(2);
+    });
+
 });
