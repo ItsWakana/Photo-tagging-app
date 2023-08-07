@@ -11,7 +11,6 @@ const ImageInteractionProvider = ({ children }) => {
     const boxSelectorRef = useRef(null);
 
     const handleImageClick = async (event) => {
-
         setImageIsClicked(true);
         const image = event.target;
 
